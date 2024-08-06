@@ -1,9 +1,40 @@
-import { Label } from "@/components/ui/label";
+"use client";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { useState } from "react";
+import Loader from "@/components/Loader/Loader";
+import { LoginFormSchema } from "@/Schemas/LoginSchema";
 
-const page = () => {
+const Page = () => {
+  const [submitError, setSubmitError] = useState<string>("");
+
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
+    mode: "onChange",
+    resolver: zodResolver(LoginFormSchema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  const isLoading = form.formState.isSubmitting;
+
+  const onSubmit = async ({
+    email,
+    password,
+  }: z.infer<typeof LoginFormSchema>) => {
+    console.log("Submitting form", { email, password });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="mx-auto w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-lg sm:p-8">
@@ -14,29 +45,51 @@ const page = () => {
               Login to your account to get started.
             </p>
           </div>
-          <form className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                required
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                className="w-full mt-3"
+                disabled={isLoading}
+              >
+                {isLoading ? <Loader /> : "Login"}
+              </Button>
+            </form>
+          </Form>
           <div className="text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <Link
@@ -53,4 +106,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

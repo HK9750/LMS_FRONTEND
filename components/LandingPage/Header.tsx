@@ -1,10 +1,18 @@
+"use client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   return (
     <header className="flex items-center justify-between px-6 py-3 border-b border-border">
       <div className="flex items-center">
@@ -86,10 +94,22 @@ const Header = () => {
       </nav>
       <div className="flex items-center space-x-4">
         <SearchIcon className="w-6 h-6 text-muted-foreground hover:text-primary" />
-        <Avatar>
-          <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
-          <AvatarFallback>U</AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar>
+              <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
+              <AvatarFallback>U</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => router.push("/login")}>
+              Login
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/signup")}>
+              Signup
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <ModeToggle />
       </div>
     </header>
