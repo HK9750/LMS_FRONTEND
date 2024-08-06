@@ -10,10 +10,11 @@ const Header = () => {
       <div className="flex items-center">
         <Sheet>
           <SheetTrigger asChild>
-            <div className="hover:bg-accent hover:text-accent-foreground p-1 rounded-md mr-2">
+            <div className="p-1 rounded-md mr-2 flex sm:hidden hover:bg-accent hover:text-accent-foreground">
               <MenuIcon className="h-4 w-4" />
             </div>
           </SheetTrigger>
+
           <SheetContent side="left" className="sm:max-w-xs">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
@@ -158,14 +159,3 @@ function UserIcon(props: any) {
 }
 
 export default Header;
-
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  x="0px"
-  y="0px"
-  width="100"
-  height="100"
-  viewBox="0 0 50 50"
->
-  <path d="M 2 9 L 2 11 L 48 11 L 48 9 L 2 9 z M 2 24 L 2 26 L 48 26 L 48 24 L 2 24 z M 2 39 L 2 41 L 48 41 L 48 39 L 2 39 z"></path>
-</svg>;
