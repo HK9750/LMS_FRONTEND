@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import Loader from "@/components/Loader/Loader";
-import { LoginFormSchema } from "@/Schemas/LoginSchema";
+import { LoginFormSchema } from "@/schemas/LoginSchema";
 
 const Page = () => {
   const [submitError, setSubmitError] = useState<string>("");

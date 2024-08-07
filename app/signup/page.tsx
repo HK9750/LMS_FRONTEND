@@ -14,13 +14,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
-import { SignUpFormSchema } from "@/Schemas/SignupSchema";
+import { SignUpFormSchema } from "@/schemas/SignupSchema";
 import Loader from "@/components/Loader/Loader";
+import OTPVerification from "@/components/OTPVerification/OTPVerification";
 
 const Page = () => {
   const [submitError, setSubmitError] = useState<string>("");
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [showOTPVerification, setShowOTPVerification] =
+    useState<boolean>(false);
 
-  // Ensure the default values are set correctly
   const form = useForm<z.infer<typeof SignUpFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(SignUpFormSchema),
@@ -29,12 +32,20 @@ const Page = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  const handleSubmitOtp = () => {
+    const newOtp = Object.values(otp).join("");
+    console.log(typeof newOtp);
+    console.log("Submitting OTP", newOtp);
+    setShowOTPVerification(false);
+  };
+
   const onSubmit = async ({
     name,
     email,
     password,
   }: z.infer<typeof SignUpFormSchema>) => {
     console.log("Submitting form", { name, email, password });
+    setShowOTPVerification(true);
   };
 
   return (
@@ -129,11 +140,19 @@ const Page = () => {
               className="underline underline-offset-4"
               prefetch={false}
             >
-              "Login"
+              Login
             </Link>
           </div>
         </div>
       </div>
+      {showOTPVerification && (
+        <OTPVerification
+          otp={otp}
+          setOtp={setOtp}
+          handleSubmitOtp={handleSubmitOtp}
+          setShowOTPVerification={setShowOTPVerification}
+        />
+      )}
     </div>
   );
 };
