@@ -29,13 +29,32 @@ const OTPVerification = ({
 
   const handleOtpChange = (index: number, value: string) => {
     const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+    if (value === "") {
+      newOtp[index] = "";
+      setOtp(newOtp);
+      if (index > 0) {
+        inputRefs.current[index - 1]?.focus();
+      }
+    } else if (/^[0-9]$/.test(value)) {
+      newOtp[index] = value;
+      setOtp(newOtp);
+      if (index < otp.length - 1) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
+  };
 
-    if (value && index < 3) {
-      inputRefs.current[index + 1]?.focus();
-    } else if (value === "" && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Backspace" && otp[index] === "") {
+      if (index > 0) {
+        const newOtp = [...otp];
+        newOtp[index - 1] = "";
+        setOtp(newOtp);
+        inputRefs.current[index - 1]?.focus();
+      }
     }
   };
 
@@ -65,6 +84,7 @@ const OTPVerification = ({
                   className="w-full h-full text-2xl font-bold text-center border-2 border-muted rounded-md"
                   value={value}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
                 />
               </div>
             ))}
