@@ -26,12 +26,14 @@ import {
 } from "@/redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [showOTPVerification, setShowOTPVerification] =
     useState<boolean>(false);
   const { data: session } = useSession();
+  const router = useRouter();
   const [
     register,
     {
@@ -102,14 +104,25 @@ const Page = () => {
     }
   };
   const handleSocialLogin = async (provider: string) => {
-    signIn(provider, { callbackUrl: "/" });
-    if (session) {
+    if (session && session.user) {
+      toast({
+        variant: "default",
+        title: `Already Signed In`,
+        description: `You are already signed in with ${provider}. Redirecting...`,
+      });
+      router.push("/");
+      return;
+    }
+
+    await signIn(provider, { callbackUrl: "/" });
+
+    if (session && session.user) {
       const { user } = session;
-      const avatarBase64 = await fetchAvatarBase64(user?.image || "");
+      const avatarBase64 = await fetchAvatarBase64(user.image || "");
 
       const socialLoginData = {
-        name: user?.name,
-        email: user?.email,
+        name: user.name,
+        email: user.email,
         avatar: avatarBase64,
       };
 
