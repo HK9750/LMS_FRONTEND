@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const ProfileSidebar = () => {
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background">
+    <div className="flex overflow-hidden bg-background">
       <aside className="flex flex-col items-start justify-between border-r bg-background px-6 py-8 shadow-sm">
         <div className="flex flex-col items-start gap-6">
           <div className="flex items-center gap-4">
@@ -21,15 +21,16 @@ const ProfileSidebar = () => {
           </div>
           <nav className="grid gap-2">
             <Link
-              href="#"
+              href={"/profile"}
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
               prefetch={false}
+              replace
             >
               <UserIcon className="h-5 w-5" />
               Profile
             </Link>
             <Link
-              href="#"
+              href="/profile/changepassword"
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
               prefetch={false}
             >
@@ -37,7 +38,7 @@ const ProfileSidebar = () => {
               Change Password
             </Link>
             <Link
-              href="#"
+              href="/profile/enrolledcourses"
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
               prefetch={false}
             >

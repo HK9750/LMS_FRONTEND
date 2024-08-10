@@ -1,19 +1,19 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Banner from "@/public/Banner.svg";
 import Image from "next/image";
 import { SearchIcon } from "@/components/LandingPage/Header";
 import Link from "next/link";
+import Books from "@/public/books.png";
 
 const Hero = () => {
   return (
     <main className="flex flex-col items-center justify-center p-10 md:flex-row">
       <div className="flex-1">
         <Image
-          src={Banner}
+          src={Books}
           alt="Illustration"
-          className="w-full max-w-md mx-auto"
+          className="w-full max-w-md mx-auto rounded-full"
           width={400}
           height={300}
           style={{ aspectRatio: "400/400", objectFit: "contain" }}

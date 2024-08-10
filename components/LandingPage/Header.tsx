@@ -10,8 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   return (
     <header className="flex items-center justify-between px-6 py-3 border-b border-border">
@@ -93,7 +95,6 @@ const Header = () => {
         </Link>
       </nav>
       <div className="flex items-center space-x-4">
-        <SearchIcon className="w-6 h-6 text-muted-foreground hover:text-primary" />
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
@@ -102,12 +103,20 @@ const Header = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => router.push("/login")}>
-              Login
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/signup")}>
-              Signup
-            </DropdownMenuItem>
+            {session ? (
+              <DropdownMenuItem onClick={() => router.push("/profile")}>
+                Profile
+              </DropdownMenuItem>
+            ) : (
+              <>
+                <DropdownMenuItem onClick={() => router.push("/login")}>
+                  Login
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/signup")}>
+                  Signup
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
         <ModeToggle />

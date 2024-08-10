@@ -1,3 +1,4 @@
+import Header from "@/components/LandingPage/Header";
 import ProfileSidebar from "@/components/ProfileSidebar/ProfileSidebar";
 import React from "react";
 
@@ -7,8 +8,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <section>
-      <ProfileSidebar />
+    <section className="flex flex-col min-h-screen">
+      <Header />
+      <section className="flex flex-grow">
+        <ProfileSidebar />
+        <div className="flex-1">{children}</div>
+      </section>
     </section>
   );
 };
