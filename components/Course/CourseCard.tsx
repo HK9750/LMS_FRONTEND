@@ -21,6 +21,7 @@ const CourseCard = () => {
             src={Books}
             alt="thumbnail"
             className="w-full h-48 object-cover"
+            priority={true}
           />
         </div>
         <CardHeader className="p-4">

@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { data: session } = useSession();
+  const { user } = useSelector((state: any) => state.user);
   const router = useRouter();
   return (
     <header className="flex items-center justify-between px-6 py-3 border-b border-border">
@@ -103,7 +104,7 @@ const Header = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {session ? (
+            {user ? (
               <DropdownMenuItem onClick={() => router.push("/profile")}>
                 Profile
               </DropdownMenuItem>

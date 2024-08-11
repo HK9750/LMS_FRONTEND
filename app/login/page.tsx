@@ -65,16 +65,6 @@ const Page = () => {
   };
 
   const handleSocialLogin = async (provider: string) => {
-    if (session && session.user) {
-      toast({
-        variant: "default",
-        title: `Already Signed In`,
-        description: `You are already signed in with ${provider}. Redirecting...`,
-      });
-      router.push("/");
-      return;
-    }
-
     await signIn(provider, { callbackUrl: "/" });
 
     if (session && session.user) {

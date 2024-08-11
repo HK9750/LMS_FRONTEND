@@ -1,8 +1,11 @@
+"use client";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
 
 const ProfileSidebar = () => {
+  const { user } = useSelector((state: any) => state.user);
   return (
     <div className="flex overflow-hidden bg-background">
       <aside className="flex flex-col items-start justify-between border-r bg-background px-6 py-8 shadow-sm">
@@ -29,6 +32,16 @@ const ProfileSidebar = () => {
               <UserIcon className="h-5 w-5" />
               Profile
             </Link>
+            {user && (
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+                prefetch={false}
+              >
+                <LockIcon className="h-5 w-5" />
+                dashboard
+              </Link>
+            )}
             <Link
               href="/profile/changepassword"
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"

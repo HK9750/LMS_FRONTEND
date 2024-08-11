@@ -5,6 +5,8 @@ import Image from "next/image";
 import { SearchIcon } from "@/components/LandingPage/Header";
 import Link from "next/link";
 import Books from "@/public/books.png";
+import Boy1 from "@/public/feedbackboy1.png";
+import Boy2 from "@/public/feedbackboy2.png";
 
 const Hero = () => {
   return (
@@ -16,6 +18,7 @@ const Hero = () => {
           className="w-full max-w-md mx-auto rounded-full"
           width={400}
           height={300}
+          priority={true}
           style={{ aspectRatio: "400/400", objectFit: "contain" }}
         />
       </div>
@@ -41,16 +44,13 @@ const Hero = () => {
         </div>
         <div className="flex items-center mt-6 space-x-4">
           <Avatar>
-            <AvatarImage src="/placeholder-user.jpg" alt="User Avatar 1" />
-            <AvatarFallback>U1</AvatarFallback>
+            <AvatarImage src={Boy1.src} alt="User Avatar 1" />
           </Avatar>
           <Avatar>
-            <AvatarImage src="/placeholder-user.jpg" alt="User Avatar 2" />
-            <AvatarFallback>U2</AvatarFallback>
+            <AvatarImage src={Boy2.src} alt="User Avatar 2" />
           </Avatar>
           <Avatar>
-            <AvatarImage src="/placeholder-user.jpg" alt="User Avatar 3" />
-            <AvatarFallback>U3</AvatarFallback>
+            <AvatarImage src={Boy1.src} alt="User Avatar 3" />
           </Avatar>
           <p className="text-muted-foreground">
             500K+ People already trusted us.{" "}

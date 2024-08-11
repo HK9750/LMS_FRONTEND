@@ -56,6 +56,7 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
+          console.log(result);
           dispatch(
             userLogin({
               accessToken: result.data.accessToken,
@@ -98,21 +99,6 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(userLogout());
-        } catch (error: any) {
-          console.error(error.message);
-        }
-      },
-    }),
-    updateAccessToken: builder.mutation({
-      query: (data) => ({
-        url: "update/token",
-        method: "GET",
-        credentials: "include" as const,
-      }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const result = await queryFulfilled;
-          dispatch(updateAccessToken({ accessToken: result.data.accessToken }));
         } catch (error: any) {
           console.error(error.message);
         }
