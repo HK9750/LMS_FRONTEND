@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
@@ -99,7 +98,11 @@ const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
+              <AvatarImage
+                src={user?.avatar.url}
+                alt="User Avatar"
+                className="object-contain"
+              />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

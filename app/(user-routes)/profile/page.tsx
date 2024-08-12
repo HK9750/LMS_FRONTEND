@@ -21,7 +21,7 @@ const page = () => {
       <CardContent className="space-y-4">
         <div className="flex items-center justify-center">
           <Avatar className="h-20 w-20 border-2 border-primary">
-            <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
+            <AvatarImage src="" alt="@shadcn" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <Button variant="ghost" size="icon" className="ml-4">

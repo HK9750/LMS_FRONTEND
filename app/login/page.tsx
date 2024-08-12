@@ -113,6 +113,7 @@ const Page = () => {
         title: "Login Successful",
         description: LoginData?.message,
       });
+      router.push("/");
     }
   }, [isLoginSuccess, LoginError, LoginData, toast]);
 

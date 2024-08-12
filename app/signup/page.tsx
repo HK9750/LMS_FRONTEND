@@ -161,6 +161,7 @@ const Page = () => {
         description: activationData?.message,
       });
       setShowOTPVerification(false);
+      router.push("/");
     }
   }, [isActivationSuccess, activationError, activationData, toast]);
 

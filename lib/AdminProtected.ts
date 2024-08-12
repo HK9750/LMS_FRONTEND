@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
-import { FC, ReactNode } from "react";
+"use client";
+import { useEffect, useState, FC, ReactNode } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 interface AdminProtectedProps {
   children: ReactNode;
@@ -8,8 +9,28 @@ interface AdminProtectedProps {
 
 const AdminProtected: FC<AdminProtectedProps> = ({ children }) => {
   const { user } = useSelector((state: any) => state.user);
+  const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
-  const isAdmin = user && user.role === "admin";
-  return isAdmin ? children : redirect("/");
+  useEffect(() => {
+    // Adding a delay to allow time for fetching the user's role
+    const timer = setTimeout(() => {
+      if (user && user.role === "admin") {
+        setIsAuthorized(true);
+      } else {
+        setIsAuthorized(false);
+        router.push("/");
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [user, router]);
+
+  if (isAuthorized === null) {
+    return null;
+  }
+
+  return children as JSX.Element;
 };
+
 export default AdminProtected;

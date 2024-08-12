@@ -1,18 +1,53 @@
 "use client";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
+import {
+  FaUser as UserIcon,
+  FaLock as LockIcon,
+  FaBookOpen as BookOpenIcon,
+  FaSignOutAlt as LogOutIcon,
+} from "react-icons/fa";
+import React from "react";
+import { MdDashboard as DashboardIcon } from "react-icons/md";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { useLogoutMutation } from "@/redux/features/auth/authApi";
 
 const ProfileSidebar = () => {
   const { user } = useSelector((state: any) => state.user);
+  const isAdmin = user?.role === "admin";
+  const router = useRouter();
+  const { toast } = useToast();
+
+  // Use mutation hook for logout
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout({}).unwrap();
+      toast({
+        title: "Logged Out",
+        description: "You have successfully logged out.",
+      });
+      router.push("/login");
+    } catch (err) {
+      toast({
+        title: "Logout Failed",
+        description: "There was an issue logging out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="flex overflow-hidden bg-background">
       <aside className="flex flex-col items-start justify-between border-r bg-background px-6 py-8 shadow-sm">
         <div className="flex flex-col items-start gap-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
+              <AvatarImage src="" alt="User Avatar" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
@@ -22,47 +57,31 @@ const ProfileSidebar = () => {
               </div>
             </div>
           </div>
-          <nav className="grid gap-2">
-            <Link
-              href={"/profile"}
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-              prefetch={false}
-              replace
-            >
-              <UserIcon className="h-5 w-5" />
+          <nav className="space-y-2">
+            <SidebarLink href="/profile" icon={<UserIcon />}>
               Profile
-            </Link>
-            {user && (
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-                prefetch={false}
-              >
-                <LockIcon className="h-5 w-5" />
-                dashboard
-              </Link>
+            </SidebarLink>
+            {isAdmin && (
+              <SidebarLink href="/dashboard" icon={<DashboardIcon />}>
+                Dashboard
+              </SidebarLink>
             )}
-            <Link
-              href="/profile/changepassword"
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-              prefetch={false}
-            >
-              <LockIcon className="h-5 w-5" />
+            <SidebarLink href="/profile/changepassword" icon={<LockIcon />}>
               Change Password
-            </Link>
-            <Link
+            </SidebarLink>
+            <SidebarLink
               href="/profile/enrolledcourses"
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-              prefetch={false}
+              icon={<BookOpenIcon />}
             >
-              <BookOpenIcon className="h-5 w-5" />
               Enrolled Courses
-            </Link>
+            </SidebarLink>
           </nav>
         </div>
         <Button
           variant="ghost"
           className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+          onClick={handleLogout}
+          disabled={isLoading}
         >
           <LogOutIcon className="h-5 w-5" />
           Logout
@@ -74,83 +93,19 @@ const ProfileSidebar = () => {
 
 export default ProfileSidebar;
 
-function BookOpenIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-    </svg>
-  );
+interface SidebarLinkProps {
+  href: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
 }
 
-function LockIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
-function LogOutIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" x2="9" y1="12" y2="12" />
-    </svg>
-  );
-}
-
-function UserIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
+const SidebarLink = ({ href, icon, children }: SidebarLinkProps) => (
+  <Link
+    href={href}
+    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+    prefetch={false}
+  >
+    {React.cloneElement(icon as React.ReactElement, { size: 18 })}
+    {children}
+  </Link>
+);
