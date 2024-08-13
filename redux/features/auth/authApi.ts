@@ -1,6 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
 import {
-  updateAccessToken,
   userActivation,
   userLogin,
   userLogout,

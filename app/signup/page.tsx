@@ -163,7 +163,7 @@ const Page = () => {
       setShowOTPVerification(false);
       router.push("/");
     }
-  }, [isActivationSuccess, activationError, activationData, toast]);
+  }, [isActivationSuccess, activationError, activationData, toast, router]);
 
   useEffect(() => {
     if (socialLoginError) {

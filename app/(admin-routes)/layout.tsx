@@ -1,9 +1,9 @@
 "use client";
-import Header from "@/components/LandingPage/Header";
 import AdminSidebar from "@/components/Admin/AdminSidebar";
 import React, { useState, useEffect } from "react";
 import AdminProtected from "@/lib/AdminProtected";
 import Loader from "@/components/Loader/Loader";
+import AdminHeader from "@/components/Admin/AdminHeader";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -33,10 +33,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <AdminProtected>
       <section className="flex flex-col min-h-screen">
-        <Header />
         <section className="flex flex-grow">
           <AdminSidebar />
-          <div className="flex-1">{children}</div>
+          <div className="flex-1">
+            <AdminHeader />
+            {children}
+          </div>
         </section>
       </section>
     </AdminProtected>

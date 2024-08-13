@@ -115,7 +115,7 @@ const Page = () => {
       });
       router.push("/");
     }
-  }, [isLoginSuccess, LoginError, LoginData, toast]);
+  }, [isLoginSuccess, LoginError, LoginData, toast, router]);
 
   useEffect(() => {
     if (SocialLoginError) {
@@ -214,7 +214,7 @@ const Page = () => {
             </Button>
           </div>
           <div className="text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don't have an account?
             <Link
               href={"/signup"}
               className="underline underline-offset-4"

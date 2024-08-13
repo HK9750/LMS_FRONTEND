@@ -1,4 +1,10 @@
+import DashboardHero from "@/components/Admin/DashboardHero";
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <DashboardHero />
+    </>
+  );
 };
 export default page;
