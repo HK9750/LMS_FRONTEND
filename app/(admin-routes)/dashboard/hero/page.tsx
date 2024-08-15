@@ -1,10 +1,10 @@
 "use client";
-import CreateCourse from "@/components/Admin/CreateCourse";
+import UpdateHero from "@/components/Admin/UpdateHero";
 
 const page = () => {
   return (
     <>
-      <CreateCourse />
+      <UpdateHero />
     </>
   );
 };

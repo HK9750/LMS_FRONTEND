@@ -60,13 +60,13 @@ const AdminSidebar = () => {
             <div className="text-sm font-medium uppercase text-muted-foreground">
               Customization
             </div>
-            <SidebarLink href="/admin/hero" icon={<ImageIcon />}>
+            <SidebarLink href="/dashboard/hero" icon={<ImageIcon />}>
               Hero
             </SidebarLink>
-            <SidebarLink href="/admin/faq" icon={<HelpCircleIcon />}>
+            <SidebarLink href="/dashboard/faq" icon={<HelpCircleIcon />}>
               FAQ
             </SidebarLink>
-            <SidebarLink href="/admin/categories" icon={<GridIcon />}>
+            <SidebarLink href="/dashboard/categories" icon={<GridIcon />}>
               Categories
             </SidebarLink>
 

@@ -1,10 +1,10 @@
 "use client";
-import CreateCourse from "@/components/Admin/CreateCourse";
+import UpdateFaq from "@/components/Admin/UpdateFaq";
 
 const page = () => {
   return (
     <>
-      <CreateCourse />
+      <UpdateFaq />
     </>
   );
 };

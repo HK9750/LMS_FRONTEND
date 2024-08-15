@@ -3,8 +3,8 @@ import { apiSlice } from "../api/apiSlice";
 const layoutApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getLayout: builder.query({
-      query: () => ({
-        url: `layout`,
+      query: (type) => ({
+        url: `layout?type=${type}`,
         method: "GET",
         credentials: "include" as const,
       }),
