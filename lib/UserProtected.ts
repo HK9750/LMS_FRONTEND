@@ -1,14 +1,15 @@
+"use client";
 import { FC, ReactNode } from "react";
-import { useSelector } from "react-redux";
 import { redirect } from "next/navigation";
+import UseAuth from "./UseAuth";
 
 interface UserProtectedProps {
   children: ReactNode;
 }
 
 const UserProtected: FC<UserProtectedProps> = ({ children }) => {
-  const { user } = useSelector((state: any) => state.user);
+  const user = UseAuth();
 
-  return user ? children : redirect("/login");
+  return user ? (children as JSX.Element) : redirect("/login");
 };
 export default UserProtected;

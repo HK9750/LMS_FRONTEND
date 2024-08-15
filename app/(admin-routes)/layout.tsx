@@ -35,7 +35,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <section className="flex flex-col min-h-screen">
         <section className="flex flex-grow">
           <AdminSidebar />
-          <div className="flex-1">
+          <div className="flex-1 ml-80 overflow-y-auto">
             <AdminHeader />
             {children}
           </div>
