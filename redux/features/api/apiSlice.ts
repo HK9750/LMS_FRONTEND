@@ -45,3 +45,5 @@ export const apiSlice = createApi({
     }),
   }),
 });
+
+export const { useLoadUserQuery, useUpdateAccessTokenQuery } = apiSlice;

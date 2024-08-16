@@ -17,7 +17,28 @@ const orderApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getStripePublishableKey: builder.query({
+      query: () => ({
+        url: "stripeapi",
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+
+    createPaymentIntent: builder.mutation({
+      query: ({ amount }) => ({
+        url: "stripepayment",
+        method: "POST",
+        body: { amount },
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetAllOrdersQuery } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetAllOrdersQuery,
+  useGetStripePublishableKeyQuery,
+  useCreatePaymentIntentMutation,
+} = orderApi;
