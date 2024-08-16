@@ -102,6 +102,7 @@ const CreateCourse = () => {
     };
 
     setCourseData(data);
+    console.log(data);
   };
 
   const handleCourseCreate = async () => {

@@ -3,6 +3,7 @@ import { IoRadioButtonOnSharp as IconButton } from "react-icons/io5";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { IoTrashBinSharp, IoChevronUp, IoChevronDown } from "react-icons/io5";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "../ui/input";
 
 type Props = {
   active: number;
@@ -17,9 +18,8 @@ const CourseContent = ({
   setActive,
   courseContentData,
   setCourseContentData,
-  handleSubmit: handleCourseSubmit,
+  handleSubmit,
 }: Props) => {
-  const [activeSection, setActiveSection] = React.useState(0);
   const [isCollapsed, setIsCollapsed] = React.useState<boolean[]>(
     Array(courseContentData.length).fill(false)
   );
@@ -179,12 +179,9 @@ const CourseContent = ({
   };
 
   return (
-    <div className="w-[80%] text-foreground dark:text-white ml-8 mt-24 mb-6">
+    <div className="w-[80%] text-foreground ml-8 mt-24 mb-6">
       {courseContentData.map((section: any, index: number) => (
-        <div
-          key={index}
-          className="text-foreground bg-card dark:bg-card-dark rounded py-4 px-6 mb-4"
-        >
+        <div key={index} className="bg-card rounded py-4 px-6 mb-4">
           <div className="flex justify-between items-center">
             <div
               className={`${
@@ -196,13 +193,13 @@ const CourseContent = ({
             >
               <label className="text-lg font-bold">
                 Section:
-                <input
+                <Input
                   type="text"
                   value={section.videoSection}
                   onChange={(e) =>
                     handleInputChange(index, "videoSection", e.target.value)
                   }
-                  className="ml-2 bg-transparent border-none outline-none placeholder:text-gray-500"
+                  className="ml-2 bg-transparent border-none outline-none placeholder:text-muted"
                   placeholder="Enter section name"
                 />
               </label>
@@ -212,13 +209,13 @@ const CourseContent = ({
           <div className="flex justify-between">
             <div className="flex justify-center items-center gap-2">
               <label className="font-bold">{index + 1}. </label>
-              <input
+              <Input
                 type="text"
                 value={section.title}
                 onChange={(e) =>
                   handleInputChange(index, "title", e.target.value)
                 }
-                className="w-full bg-transparent outline-none placeholder:text-gray-500 text-black"
+                className="w-full bg-transparent outline-none placeholder:text-muted"
                 placeholder="Enter title"
               />
             </div>
@@ -237,7 +234,7 @@ const CourseContent = ({
               <IoTrashBinSharp
                 onClick={() => handleDeleteContentData(index)}
                 size={24}
-                className="font-bold cursor-pointer text-error"
+                className="cursor-pointer text-error"
               />
             </div>
           </div>
@@ -252,31 +249,31 @@ const CourseContent = ({
                     onChange={(e) =>
                       handleInputChange(index, "description", e.target.value)
                     }
-                    className="w-full bg-transparent border border-gray-400 outline-none mt-1 px-3 py-2 placeholder:text-gray-500"
+                    className="w-full bg-transparent border border-muted outline-none mt-1 px-3 py-2 placeholder:text-muted"
                     placeholder="Enter description"
                   />
                 </label>
                 <label className="block mb-2 font-bold">
                   Video URL:
-                  <input
+                  <Input
                     type="text"
                     value={section.videoUrl}
                     onChange={(e) =>
                       handleInputChange(index, "videoUrl", e.target.value)
                     }
-                    className="w-full bg-transparent border border-gray-400 outline-none mt-1 px-3 py-2 placeholder:text-gray-500"
+                    className="w-full bg-transparent border border-muted outline-none mt-1 px-3 py-2 placeholder:text-muted"
                     placeholder="Enter video URL"
                   />
                 </label>
                 <label className="block mb-2 font-bold">
                   Video Length (in minutes):
-                  <input
+                  <Input
                     type="text"
                     value={section.videoLength}
                     onChange={(e) =>
                       handleInputChange(index, "videoLength", e.target.value)
                     }
-                    className="w-full bg-transparent border border-gray-300 outline-none mt-1"
+                    className="w-full bg-transparent border border-muted outline-none mt-1"
                     placeholder="20"
                   />
                 </label>
@@ -287,7 +284,7 @@ const CourseContent = ({
                     onChange={(e) =>
                       handleInputChange(index, "suggestions", e.target.value)
                     }
-                    className="w-full bg-transparent border border-gray-400 outline-none mt-1 px-3 py-2 placeholder:text-gray-500"
+                    className="w-full bg-transparent border border-muted outline-none mt-1 px-3 py-2 placeholder:text-muted"
                     placeholder="Enter suggestions"
                   />
                 </label>
@@ -296,25 +293,25 @@ const CourseContent = ({
                     <div key={i} className="mb-2">
                       <label className="block mb-1 font-bold">
                         Link Title:
-                        <input
+                        <Input
                           type="text"
                           value={link.title}
                           onChange={(e) =>
                             handleLinkChange(index, i, "title", e.target.value)
                           }
-                          className="w-full bg-transparent border border-gray-400 outline-none mt-1 px-3 py-2 placeholder:text-gray-500"
+                          className="w-full bg-transparent border border-muted outline-none mt-1 px-3 py-2 placeholder:text-muted"
                           placeholder="Enter link title"
                         />
                       </label>
                       <label className="block mb-1 font-bold">
                         Link URL:
-                        <input
+                        <Input
                           type="text"
                           value={link.url}
                           onChange={(e) =>
                             handleLinkChange(index, i, "url", e.target.value)
                           }
-                          className="w-full bg-transparent border border-gray-400 outline-none mt-1 px-3 py-2 placeholder:text-gray-500"
+                          className="w-full bg-transparent border border-muted outline-none mt-1 px-3 py-2 placeholder:text-muted"
                           placeholder="Enter link URL"
                         />
                       </label>
@@ -322,33 +319,51 @@ const CourseContent = ({
                   ))}
                   <button
                     onClick={() => handleAddLink(index)}
-                    className="flex items-center mt-2 text-primary"
+                    className="flex items-center mt-2 text-muted hover:text-primary"
                   >
-                    <IoAddCircleSharp size={20} />
-                    <span className="ml-1 font-bold">Add New Link</span>
+                    <IoAddCircleSharp size={20} className="mr-2" />
+                    Add Link
                   </button>
                 </div>
               </div>
-              <div className="mt-2 flex justify-end">
-                <button
-                  onClick={() => handleAddContent(index)}
-                  className="flex items-center text-primary"
-                >
-                  <IoAddCircleSharp size={20} />
-                  <span className="ml-1 font-bold">Add New Content</span>
-                </button>
-              </div>
+              <button
+                onClick={() => handleAddContent(index)}
+                className="flex items-center mt-2 text-muted hover:text-primary"
+              >
+                <IoAddCircleSharp size={20} className="mr-2" />
+                Add Content
+              </button>
             </>
           )}
         </div>
       ))}
+
       <button
         onClick={handleAddSection}
-        className="flex items-center mt-4 mb-2 text-primary"
+        className="flex items-center mt-2 text-muted hover:text-primary"
       >
-        <IoAddCircleSharp size={24} />
-        <span className="ml-2 font-bold">Add Section</span>
+        <IoAddCircleSharp size={20} className="mr-2" />
+        Add Section
       </button>
+      <div className="flex">
+        <button
+          onClick={() => {
+            if (validateContentData()) {
+              handleSubmit();
+              setActive(active + 1);
+            } else {
+              toast({
+                title: "Error",
+                description: "Please fill out all fields first.",
+                variant: "destructive",
+              });
+            }
+          }}
+          className="px-4 py-2 mt-4 bg-primary text-background rounded hover:bg-primary-600"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };

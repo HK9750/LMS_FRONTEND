@@ -1,6 +1,7 @@
 import React from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   benefits: { title: string }[];
@@ -40,20 +41,20 @@ const CourseData = ({
   };
 
   return (
-    <div className="w-4/5 ml-8 mt-24 mb-6 text-foreground dark:text-white">
+    <div className="w-4/5 ml-8 mt-24 mb-6 text-foreground">
       <h2 className="text-2xl font-bold">Course Data</h2>
 
       <div className="mt-8">
-        <h4 className="text-xl text-slate-700 dark:text-slate-200 font-bold">
+        <h4 className="text-xl font-bold text-foreground">
           What Benefits does the course provide?
         </h4>
         {benefits.map((benefit, index) => (
           <div key={index}>
-            <input
+            <Input
               type="text"
               value={benefit.title}
               onChange={(e) => handleBenefitChange(index, e.target.value)}
-              className="w-full mt-2 border border-gray-300 rounded-md p-2 bg-background dark:bg-gray-800"
+              className="w-full mt-2 border rounded-md p-2 bg-background"
             />
           </div>
         ))}
@@ -65,16 +66,16 @@ const CourseData = ({
       </div>
 
       <div className="mt-8">
-        <h4 className="text-xl text-slate-700 dark:text-slate-200 font-bold">
-          What are the pre requisites of the course?
+        <h4 className="text-xl font-bold text-foreground">
+          What are the prerequisites of the course?
         </h4>
         {prerequisites.map((prerequisite, index) => (
           <div key={index}>
-            <input
+            <Input
               type="text"
               value={prerequisite.title}
               onChange={(e) => handlePrerequisiteChange(index, e.target.value)}
-              className="w-full mt-2 border border-gray-300 rounded-md p-2 bg-background dark:bg-gray-800"
+              className="w-full mt-2 border rounded-md p-2 bg-background"
             />
           </div>
         ))}
@@ -88,7 +89,7 @@ const CourseData = ({
       <div className="mt-8 flex justify-between">
         <button
           onClick={() => setActive(active - 1)}
-          className="bg-primary text-white px-4 py-2 rounded-md"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded-md"
         >
           Back
         </button>
@@ -108,7 +109,7 @@ const CourseData = ({
               });
             }
           }}
-          className="bg-primary text-white px-4 py-2 rounded-md"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded-md"
         >
           Next
         </button>

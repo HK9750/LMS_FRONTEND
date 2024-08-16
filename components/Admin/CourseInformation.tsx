@@ -1,5 +1,6 @@
 import { useGetLayoutQuery } from "@/redux/features/layout/layoutapi";
 import React, { useEffect, useState } from "react";
+import { Input } from "../ui/input";
 
 type Props = {
   courseInfo: any;
@@ -78,7 +79,7 @@ const CourseInformation = ({
             <label htmlFor="name" className="text-lg">
               Course Name
             </label>
-            <input
+            <Input
               type="text"
               id="name"
               placeholder="Enter course name"
@@ -108,7 +109,7 @@ const CourseInformation = ({
               <label htmlFor="price" className="text-lg">
                 Course Price
               </label>
-              <input
+              <Input
                 type="text"
                 id="price"
                 value={courseInfo.price}
@@ -122,7 +123,7 @@ const CourseInformation = ({
               <label htmlFor="estimatedPrice" className="text-lg">
                 Estimated Price (Optional)
               </label>
-              <input
+              <Input
                 type="text"
                 id="estimatedPrice"
                 value={courseInfo.estimatedPrice}
@@ -141,7 +142,7 @@ const CourseInformation = ({
               <label htmlFor="tags" className="text-lg">
                 Course Tags
               </label>
-              <input
+              <Input
                 type="text"
                 id="tags"
                 placeholder="Enter course tags"
@@ -156,7 +157,7 @@ const CourseInformation = ({
               <label htmlFor="level" className="text-lg">
                 Course Level
               </label>
-              <input
+              <Input
                 type="text"
                 id="level"
                 placeholder="Enter course level"
@@ -193,7 +194,7 @@ const CourseInformation = ({
               <label htmlFor="demoUrl" className="text-lg">
                 Course Demo URL
               </label>
-              <input
+              <Input
                 type="text"
                 id="demoUrl"
                 placeholder="Enter course demo URL"
@@ -218,7 +219,7 @@ const CourseInformation = ({
               >
                 Drag & Drop thumbnail here
               </label>
-              <input
+              <Input
                 type="file"
                 id="thumbnail"
                 placeholder="Enter course thumbnail"

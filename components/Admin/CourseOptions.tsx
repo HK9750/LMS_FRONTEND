@@ -23,7 +23,9 @@ const CourseOptions = ({ active, setActive }: Props) => {
               active + 1 > index ? "bg-primary" : "bg-secondary"
             } relative`}
           >
-            {active + 1 > index && <IoMdCheckmark className="text-white" />}
+            {active + 1 > index && (
+              <IoMdCheckmark className="text-primary-foreground" />
+            )}
             {index !== options.length - 1 && (
               <div
                 className={`absolute bottom-[-100%] h-8 w-1 ${
