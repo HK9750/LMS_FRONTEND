@@ -34,11 +34,14 @@ const AdminSidebar = () => {
           <div className="text-sm font-medium uppercase text-muted-foreground">
             Data
           </div>
-          <SidebarLink href="/admin/users" icon={<UsersIcon />}>
+          <SidebarLink href="/dashboard/users" icon={<UsersIcon />}>
             Users
           </SidebarLink>
-          <SidebarLink href="/admin/invoices" icon={<FileTextIcon />}>
-            Invoices
+          <SidebarLink href="/dashboard/orders" icon={<FileTextIcon />}>
+            Orders
+          </SidebarLink>
+          <SidebarLink href="/dashboard/allcourses" icon={<FileTextIcon />}>
+            Courses
           </SidebarLink>
 
           <div className="text-sm font-medium uppercase text-muted-foreground">
@@ -47,7 +50,7 @@ const AdminSidebar = () => {
           <SidebarLink href="/dashboard/create-course" icon={<FilePlusIcon />}>
             Create Course
           </SidebarLink>
-          <SidebarLink href="/admin/live-courses" icon={<VideoIcon />}>
+          <SidebarLink href="/dashboard/live-courses" icon={<VideoIcon />}>
             Live Courses
           </SidebarLink>
 

@@ -4,6 +4,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { IoTrashBinSharp, IoChevronUp, IoChevronDown } from "react-icons/io5";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 type Props = {
   active: number;
@@ -345,8 +346,15 @@ const CourseContent = ({
         <IoAddCircleSharp size={20} className="mr-2" />
         Add Section
       </button>
-      <div className="flex">
-        <button
+      <div className="flex justify-between mt-4">
+        <Button
+          onClick={() => {
+            setActive(active - 1);
+          }}
+        >
+          Back
+        </Button>
+        <Button
           onClick={() => {
             if (validateContentData()) {
               handleSubmit();
@@ -359,10 +367,10 @@ const CourseContent = ({
               });
             }
           }}
-          className="px-4 py-2 mt-4 bg-primary text-background rounded hover:bg-primary-600"
+          className="px-4 py-2"
         >
           Submit
-        </button>
+        </Button>
       </div>
     </div>
   );

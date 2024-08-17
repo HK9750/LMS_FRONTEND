@@ -1,5 +1,6 @@
 import React from "react";
 import CoursePlayer from "@/components/Admin/VideoPlayer";
+import { Button } from "../ui/button";
 
 type Props = {
   active: number;
@@ -17,7 +18,7 @@ const CoursePreview = ({
   edit,
 }: Props) => {
   return (
-    <div className="w-4/5 ml-8 mt-24 mb-6 text-foreground">
+    <div className="w-4/5 ml-8 mb-6 text-foreground">
       <div className="w-full relative">
         <div className="w-full my-10">
           <CoursePlayer
@@ -104,21 +105,21 @@ const CoursePreview = ({
         </div>
 
         <div className="mt-8 flex justify-between">
-          <button
+          <Button
             onClick={() => setActive(active - 1)}
-            className="bg-primary text-white px-4 py-2 rounded-md w-1/4"
+            className=" px-4 py-2 rounded-md w-1/4"
           >
             Back
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => {
               handleCourseCreate();
             }}
-            className="bg-primary text-white px-4 py-2 rounded-md w-1/4"
+            className=" px-4 py-2 rounded-md w-1/4"
           >
             {edit ? "Update" : "Create"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

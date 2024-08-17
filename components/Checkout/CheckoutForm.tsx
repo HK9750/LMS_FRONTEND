@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { Button } from "../ui/button";
 
 type Props = {
   data: any;
@@ -66,22 +67,26 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
   }, [orderData, orderError, router, data, setOpen]);
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement id="link-authentication-element" />
-      <PaymentElement id="payment-element" />
+    <form className="bg-background" onSubmit={handleSubmit}>
+      <LinkAuthenticationElement />
+      <PaymentElement />
 
       <div className="mt-6 flex justify-center">
-        <button
+        <Button
           disabled={isLoading || !stripe || !elements}
           id="submit"
-          className="w-[30%] bg-yellow-500 py-3 px-4 rounded-lg"
+          className="w-[30%] bg-primary text-primary-foreground py-3 px-4 rounded-lg"
         >
           <span id="button-text">{isLoading ? "Loading" : "Pay now"}</span>
-        </button>
+        </Button>
       </div>
 
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      {message && (
+        <div id="payment-message" className="mt-4 text-sm text-destructive">
+          {message}
+        </div>
+      )}
     </form>
   );
 };

@@ -71,10 +71,10 @@ const CourseDetails = ({ id }: Props) => {
 
   return (
     <>
-      <div className="text-foreground flex items-start w-full h-full">
+      <div className="text-foreground flex w-full h-full justify-center mt-5">
         <div className="w-[75%]">
           <div className="space-y-8 w-[80%]">
-            <div>
+            <div className="flex flex-wrap justify-center">
               <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
               <div className="flex items-center space-x-2">
                 <span className="text-yellow-500">☆☆☆☆☆</span>
