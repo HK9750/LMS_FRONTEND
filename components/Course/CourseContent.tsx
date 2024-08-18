@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useGetCourseByIdQuery } from "@/redux/features/course/courseapi";
+import { useGetUserCourseQuery } from "@/redux/features/course/courseapi";
 import { useSelector } from "react-redux";
 import CourseContentMedia from "./CourseContentMedia";
 import CourseContentList from "./CourseContentList";
@@ -9,13 +9,15 @@ interface CourseContentProps {
 }
 
 const CourseContent: FC<CourseContentProps> = ({ id }) => {
-  const { data, isLoading } = useGetCourseByIdQuery(id);
+  const { data, isLoading } = useGetUserCourseQuery(id);
   const [activeVideo, setActiveVideo] = React.useState<number>(0);
   const user = useSelector((state: any) => state.auth.user);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center text-muted-foreground">Loading...</div>;
   }
+
+  console.log(data);
 
   if (
     !data ||
@@ -23,11 +25,15 @@ const CourseContent: FC<CourseContentProps> = ({ id }) => {
     !data.content[0] ||
     !data.content[0].courseData
   ) {
-    return <div>No course data available.</div>;
+    return (
+      <div className="text-center text-muted-foreground">
+        No course data available.
+      </div>
+    );
   }
 
   return (
-    <div className="w-full md:grid grid-cols-10 space-y-4">
+    <div className="w-full md:grid grid-cols-10 gap-6">
       <div className="col-span-7">
         <CourseContentMedia
           data={data.content[0].courseData}
@@ -38,7 +44,7 @@ const CourseContent: FC<CourseContentProps> = ({ id }) => {
         />
       </div>
 
-      <div className="col-span-3 w-full ml-12">
+      <div className="col-span-3">
         <CourseContentList
           activeVideo={activeVideo}
           setActiveVideo={setActiveVideo}

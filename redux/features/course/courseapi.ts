@@ -40,6 +40,13 @@ const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getUserCourse: builder.query({
+      query: (courseId) => ({
+        url: `courses/user/${courseId}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
     addReview: builder.mutation({
       query: (data) => ({
         url: `course/review/${data.courseId}`,
@@ -93,4 +100,5 @@ export const {
   useGetCourseByIdQuery,
   useReplyReviewMutation,
   useDeleteCourseMutation,
+  useGetUserCourseQuery,
 } = courseApi;

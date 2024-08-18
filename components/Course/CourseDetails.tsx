@@ -54,7 +54,7 @@ const CourseDetails = ({ id }: Props) => {
   useEffect(() => {
     if (data) {
       const amount = Math.round(parseFloat(data.course.price) * 100);
-      createPaymentIntent({ amount });
+      createPaymentIntent({ amount, courseId: id });
     }
   }, [data, createPaymentIntent]);
 
@@ -71,108 +71,96 @@ const CourseDetails = ({ id }: Props) => {
 
   return (
     <>
-      <div className="text-foreground flex w-full h-full justify-center mt-5">
-        <div className="w-[75%]">
-          <div className="space-y-8 w-[80%]">
-            <div className="flex flex-wrap justify-center">
-              <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
-              <div className="flex items-center space-x-2">
-                <span className="text-yellow-500">☆☆☆☆☆</span>
-                <span>0 Reviews</span>
-              </div>
+      <div className="flex flex-col md:flex-row w-full h-full justify-center my-5 text-foreground">
+        <div className="px-4 space-y-8">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
+            <div className="flex items-center justify-center md:justify-start space-x-2 mt-2">
+              <span className="text-yellow-500">☆☆☆☆☆</span>
+              <span>0 Reviews</span>
             </div>
+          </div>
 
-            {/* What you'll learn Section */}
-            <div>
-              <h2 className="text-2xl font-semibold">
-                What you will learn from this course?
-              </h2>
-              <ul className="mt-2 space-y-1">
-                {data?.course?.benefits?.map((item: any, index: number) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <span>✔️</span>
-                    <span>{item?.title || "abc"}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div>
+            <h2 className="text-2xl font-semibold">
+              What you will learn from this course?
+            </h2>
+            <ul className="mt-2 space-y-2">
+              {data?.course?.benefits?.map((item: any, index: number) => (
+                <li key={index} className="flex items-center space-x-2">
+                  <span>✔️</span>
+                  <span>{item?.title || "abc"}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Prerequisites Section */}
-            <div>
-              <h2 className="text-2xl font-semibold">
-                What are the prerequisites for starting this course?
-              </h2>
-              <ul className="mt-2 space-y-1">
-                {data?.course?.prerequisites?.map(
-                  (item: any, index: number) => (
-                    <li key={index} className="flex items-center space-x-2">
-                      <span>✔️</span>
-                      <span>{item.title || "abc"}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
+          <div>
+            <h2 className="text-2xl font-semibold">
+              Prerequisites for this course
+            </h2>
+            <ul className="mt-2 space-y-2">
+              {data?.course?.prerequisites?.map((item: any, index: number) => (
+                <li key={index} className="flex items-center space-x-2">
+                  <span>✔️</span>
+                  <span>{item.title || "abc"}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div>
-              <h1 className="text-2xl font-semibold mb-6">Course Overview</h1>
-              <CourseContentList
-                data={data?.course?.courseData}
-                isDemo={true}
-              />
-            </div>
+          <div>
+            <h2 className="text-2xl font-semibold mb-6">Course Overview</h2>
+            <CourseContentList data={data?.course?.courseData} isDemo={true} />
+          </div>
 
-            <div>
-              <h1 className="text-2xl font-semibold">Course Details</h1>
-              <p className="mt-2">{data?.course?.description}</p>
-            </div>
+          <div>
+            <h2 className="text-2xl font-semibold">Course Details</h2>
+            <p className="mt-2">{data?.course?.description}</p>
           </div>
         </div>
 
-        <div className="w-[25%] flex flex-col justify-start gap-y-4">
+        <div className="mt-10 md:mt-0 md:mx-5">
           <CoursePlayer
             videoUrl={data?.course?.demoUrl}
             title={data?.course?.name}
           />
 
-          <div>
-            {/* Price and Discount Section */}
-            <div className="mt-4 h-full p-2">
-              <div className="text-3xl font-bold ">
-                {data?.course?.price ? `$${data.course.price}` : "Free"}
-                {data?.course?.estimatedPrice && (
-                  <span className="line-through text-muted-foreground text-lg ml-2">
-                    ${data.course.estimatedPrice}
-                  </span>
-                )}
-                {discountPercent > 0 && (
-                  <span className="text-green-500 ml-2">
-                    {discountPercent}% Off
-                  </span>
-                )}
-              </div>
-              <div className="mt-4">
-                {isPurchased ? (
-                  <Link
-                    href={`/course-access/${data?.course?._id}`}
-                    className="bg-red-500 text-white py-2 px-6 rounded-full cursor-pointer"
-                  >
-                    Enter Course
-                  </Link>
-                ) : (
-                  <button
-                    onClick={handleOrder}
-                    className="cursor-pointer bg-red-500 text-white py-2 px-6 rounded-full"
-                  >
-                    {`Buy Now for $${data?.course?.price}`}
-                  </button>
-                )}
-              </div>
+          <div className="mt-4">
+            <div className="text-3xl font-bold ml-2">
+              {data?.course?.price ? `$${data.course.price}` : "Free"}
+              {data?.course?.estimatedPrice && (
+                <span className="line-through text-muted-foreground text-lg ml-2">
+                  ${data.course.estimatedPrice}
+                </span>
+              )}
+              {discountPercent > 0 && (
+                <span className="text-green-500 ml-2">
+                  {discountPercent}% Off
+                </span>
+              )}
+            </div>
+
+            <div className="mt-4">
+              {isPurchased ? (
+                <Link
+                  href={`/course-access/${data?.course?._id}`}
+                  className="bg-red-500 text-white py-2 px-6 rounded-full"
+                >
+                  Enter Course
+                </Link>
+              ) : (
+                <button
+                  onClick={handleOrder}
+                  className="bg-red-500 text-white py-2 px-6 rounded-full"
+                >
+                  {`Buy Now for $${data?.course?.price}`}
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Course Features */}
-          <ul className="mt-6 text-muted-foreground space-y-1">
+          <ul className="mt-6 space-y-2 text-muted-foreground">
             <li>Source code included</li>
             <li>Full lifetime access</li>
             <li>Certificate of completion</li>
@@ -182,8 +170,8 @@ const CourseDetails = ({ id }: Props) => {
       </div>
 
       {open && (
-        <div className="w-full h-screen top-0 left-0 fixed flex items-center justify-center z-50 bg-slate-900">
-          <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
+        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-slate-900 bg-opacity-50 z-50">
+          <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow-lg p-6">
             <div className="w-full flex justify-end">
               <IoCloseOutline
                 size={40}
@@ -197,7 +185,7 @@ const CourseDetails = ({ id }: Props) => {
                   <CheckoutForm data={data} setOpen={setOpen} />
                 </Elements>
               ) : (
-                <div>Loading payment form...</div>
+                <div className="text-center">Loading payment form...</div>
               )}
             </div>
           </div>

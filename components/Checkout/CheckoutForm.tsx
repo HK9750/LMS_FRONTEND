@@ -24,10 +24,8 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [createOrder, { data: orderData, error: orderError }] =
     useCreateOrderMutation();
-  const [loadUser, setLoadUser] = React.useState<boolean>(false);
 
-  // Conditionally load the user
-  useLoadUserQuery(undefined, { skip: !loadUser });
+  const { refetch: loadUser } = useLoadUserQuery(undefined, { skip: true });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,22 +50,24 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
         courseId: data.course._id,
         paymentInfo: paymentIntent,
       });
+    } else {
+      setMessage("Payment not completed. Please try again.");
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (orderData) {
       setOpen(false);
-      setLoadUser(true);
-      router.push(`/course-access/${data?.course?._id}`);
+      router.push(`/courseaccess/${data?.course?._id}`);
     } else if (orderError) {
       console.error(orderError);
       setMessage("Failed to create order. Please try again.");
     }
-  }, [orderData, orderError, router, data, setOpen]);
+  }, [orderData, orderError, router, data, setOpen, loadUser]);
 
   return (
-    <form className="bg-background" onSubmit={handleSubmit}>
+    <form className="bg-background p-6 rounded-lg" onSubmit={handleSubmit}>
       <LinkAuthenticationElement />
       <PaymentElement />
 
@@ -75,13 +75,12 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
         <Button
           disabled={isLoading || !stripe || !elements}
           id="submit"
-          className="w-[30%] bg-primary text-primary-foreground py-3 px-4 rounded-lg"
+          className="w-full max-w-sm bg-primary text-primary-foreground py-3 px-4 rounded-lg"
         >
-          <span id="button-text">{isLoading ? "Loading" : "Pay now"}</span>
+          <span id="button-text">{isLoading ? "Loading..." : "Pay now"}</span>
         </Button>
       </div>
 
-      {/* Show any error or success messages */}
       {message && (
         <div id="payment-message" className="mt-4 text-sm text-destructive">
           {message}
