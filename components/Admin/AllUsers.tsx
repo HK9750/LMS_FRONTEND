@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { format } from "timeago.js";
 import { AiFillDelete } from "react-icons/ai";
@@ -21,95 +22,52 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
-  useReactTable,
   flexRender,
   getCoreRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogContent,
+  Dialog,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 interface Props {
   type?: string;
 }
 
 export default function AllUsers({ type }: Props) {
+  // Hooks at the top level
   const { isLoading, data, error, refetch } = useGetAllUsersQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
-  const [updateUserRole, { isSuccess: roleSuccess, error: roleError }] =
-    useUpdateRoleMutation();
-  const [deleteUser, { isSuccess: deleteSuccess, error: deleteError }] =
+
+  const [
+    updateUserRole,
+    { isSuccess: isUpdateSuccess, isError: isUpdateError },
+  ] = useUpdateRoleMutation();
+  const [deleteUser, { isSuccess: isDeleteSuccess, isError: isDeleteError }] =
     useDeleteUserMutation();
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const { toast } = useToast();
 
-  React.useEffect(() => {
-    if (roleSuccess) {
-      toast({
-        title: "Success",
-        description: "User role updated successfully",
-        variant: "default",
-      });
-      refetch();
-    }
-
-    if (deleteSuccess) {
-      toast({
-        title: "Success",
-        description: "User deleted successfully",
-        variant: "default",
-      });
-    }
-
-    if (deleteError) {
-      toast({
-        title: "Error",
-        description: "Error deleting user",
-        variant: "destructive",
-      });
-    }
-
-    if (roleError) {
-      toast({
-        title: "Error",
-        description: "Error updating user role",
-        variant: "destructive",
-      });
-    }
-  }, [roleSuccess, roleError, deleteSuccess, deleteError, refetch]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching users</div>;
-
-  let rows = [];
-
-  if (type === "team") {
-    const teamMembers =
-      data?.users?.filter((user: any) => user.role === "admin") || [];
-    rows =
-      teamMembers.map((user: any) => ({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        purchasedCourses: user.courses.length,
-        joinedAt: format(user.createdAt),
-      })) || [];
-  } else {
-    rows =
-      data?.users?.map((user: any) => ({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        purchasedCourses: user.courses.length,
-        joinedAt: format(user.createdAt),
-      })) || [];
-  }
-
   const handleAddMember = () => {
-    const user = data.users.filter((user: any) => user.email === email);
-    if (user.length === 0) {
+    const user = data?.users.find((user: any) => user.email === email);
+    if (!user) {
       toast({
         title: "Error",
         description: "User not found",
@@ -117,7 +75,7 @@ export default function AllUsers({ type }: Props) {
       });
       return;
     }
-    updateUserRole({ id: user[0]._id, role: "admin" });
+    updateUserRole({ id: user._id, role: "admin" });
     setOpen(false);
   };
 
@@ -128,6 +86,28 @@ export default function AllUsers({ type }: Props) {
   const handleDeleteClick = (id: string) => {
     deleteUser({ id });
   };
+
+  const rows = React.useMemo(() => {
+    return type === "team"
+      ? data?.users
+          ?.filter((user: any) => user.role === "admin")
+          .map((user: any) => ({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            purchasedCourses: user.courses.length,
+            joinedAt: format(user.createdAt),
+          })) || []
+      : data?.users?.map((user: any) => ({
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          purchasedCourses: user.courses.length,
+          joinedAt: format(user.createdAt),
+        })) || [];
+  }, [data, type]);
 
   const columns = React.useMemo(
     () => [
@@ -198,7 +178,7 @@ export default function AllUsers({ type }: Props) {
         ),
       },
     ],
-    [handleEmailClick, handleDeleteClick]
+    []
   );
 
   const table = useReactTable({
@@ -207,78 +187,132 @@ export default function AllUsers({ type }: Props) {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  React.useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Error fetching users",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast({
+        title: "Success",
+        description: "User role updated successfully",
+        variant: "default",
+      });
+      refetch();
+    }
+
+    if (isDeleteSuccess) {
+      toast({
+        title: "Success",
+        description: "User deleted successfully",
+        variant: "default",
+      });
+      refetch();
+    }
+
+    if (isUpdateError || isDeleteError) {
+      toast({
+        title: "Error",
+        description: "Error occurred while performing the action",
+        variant: "destructive",
+      });
+    }
+  }, [
+    isUpdateSuccess,
+    isDeleteSuccess,
+    isUpdateError,
+    isDeleteError,
+    refetch,
+    toast,
+  ]);
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    <div className="mt-24 relative">
+    <div className="mt-8 relative">
       {type === "team" && (
-        <div className="flex justify-end items-center w-[95%]">
-          <button
-            onClick={() => setOpen(true)}
-            className="text-foreground rounded-xl font-semibold bg-accent px-4 py-2 shadow-lg my-4"
-          >
-            Add Member
-          </button>
-        </div>
+        <Button className="my-3" onClick={() => setOpen(true)}>
+          Add Member
+        </Button>
       )}
-      <div style={{ minHeight: 500, width: "95%" }}>
-        <table className="w-full bg-background text-foreground">
-          <thead>
-            <tr>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <React.Fragment key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="p-2 border-b">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </th>
-                  ))}
-                </React.Fragment>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="p-2 border-b">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+      <div style={{ minHeight: 500, width: "100%" }}>
+        <Table className="border">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup: any) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header: any) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
                 ))}
-              </tr>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
 
       {open && (
-        <div className="absolute top-4 left-34 rounded-xl p-6 bg-background text-foreground shadow-lg">
-          <div className="space-y-3">
-            <div className="flex flex-col gap-2">
-              <label>Enter the email of the user you want to add</label>
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border-none text-foreground px-3 py-2 rounded-lg"
-              />
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Member</DialogTitle>
+              <DialogDescription>
+                Enter the email of the user you want to add.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-3">
+              <div className="flex flex-col gap-2">
+                <label>Enter the email of the user you want to add</label>
+                <Input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="rounded-lg"
+                />
+              </div>
+              <div className="flex justify-between items-center gap-2 mt-4">
+                <Button onClick={() => setOpen(false)}>Cancel</Button>
+                <Button onClick={handleAddMember}>Add</Button>
+              </div>
             </div>
-            <div className="flex justify-center items-center gap-2">
-              <button
-                onClick={() => setOpen(false)}
-                className="bg-muted px-4 py-2 rounded-xl font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddMember}
-                className="bg-accent px-4 py-2 rounded-xl font-semibold"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );

@@ -23,12 +23,12 @@ const AdminSidebar = () => {
         <nav className="space-y-2">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={user.avatar?.url} alt="User Avatar" />
+              <AvatarImage src={user?.avatar?.url} alt="User Avatar" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
-              <div className="text-lg font-semibold">{user.name}</div>
-              <div className="text-sm text-muted-foreground">{user.email}</div>
+              <div className="text-lg font-semibold">{user?.name}</div>
+              <div className="text-sm text-muted-foreground">{user?.email}</div>
             </div>
           </div>
           <div className="text-sm font-medium uppercase text-muted-foreground">
@@ -70,23 +70,26 @@ const AdminSidebar = () => {
           <div className="text-sm font-medium uppercase text-muted-foreground">
             Controllers
           </div>
-          <SidebarLink href="/admin/manage-team" icon={<UsersIcon />}>
+          <SidebarLink href="/dashboard/manageteam" icon={<UsersIcon />}>
             Manage Team
           </SidebarLink>
 
           <div className="text-sm font-medium uppercase text-muted-foreground">
             Analytics
           </div>
-          <SidebarLink href="/admin/course-analytics" icon={<BarChartIcon />}>
+          <SidebarLink
+            href="/dashboard/courseAnalytics"
+            icon={<BarChartIcon />}
+          >
             Courses Analytics
           </SidebarLink>
           <SidebarLink
-            href="/admin/orders-analytics"
+            href="/dashboard/orderAnalytics"
             icon={<ShoppingCartIcon />}
           >
             Orders Analytics
           </SidebarLink>
-          <SidebarLink href="/admin/users-analytics" icon={<UsersIcon />}>
+          <SidebarLink href="/dashboard/userAnalytics" icon={<UsersIcon />}>
             Users Analytics
           </SidebarLink>
         </nav>
