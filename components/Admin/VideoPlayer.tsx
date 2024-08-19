@@ -14,7 +14,9 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ videoUrl, title, className }) => {
         controls
         className={`h-96 w-full ${className}`}
       ></video>
-      <h3 className="text-lg mt-3 text-center">{title}</h3>
+      <h3 className="text-lg mt-3 text-center font-semibold border-b pb-2">
+        {title}
+      </h3>
     </div>
   );
 };

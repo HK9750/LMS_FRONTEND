@@ -120,31 +120,33 @@ const CourseDetails = ({ id }: Props) => {
           </div>
         </div>
 
-        <div className="mt-10 md:mt-0 md:mx-5">
+        <div className="mt-10 px-4 md:mt-0 md:mr-10">
           <CoursePlayer
             videoUrl={data?.course?.demoUrl}
             title={data?.course?.name}
           />
 
           <div className="mt-4">
-            <div className="text-3xl font-bold ml-2">
-              {data?.course?.price ? `$${data.course.price}` : "Free"}
-              {data?.course?.estimatedPrice && (
-                <span className="line-through text-muted-foreground text-lg ml-2">
-                  ${data.course.estimatedPrice}
-                </span>
-              )}
+            <div className="text-3xl font-bold flex gap-2">
+              <span>
+                {data?.course?.price ? `$${data.course.price}` : "Free"}
+              </span>
+              <span>
+                {data?.course?.estimatedPrice && (
+                  <span className="line-through text-muted-foreground text-lg">
+                    ${data.course.estimatedPrice}
+                  </span>
+                )}
+              </span>
               {discountPercent > 0 && (
-                <span className="text-green-500 ml-2">
-                  {discountPercent}% Off
-                </span>
+                <span className="text-green-500">{discountPercent}% Off</span>
               )}
             </div>
 
             <div className="mt-4">
               {isPurchased ? (
                 <Link
-                  href={`/course-access/${data?.course?._id}`}
+                  href={`/courseaccess/${data?.course?._id}`}
                   className="bg-red-500 text-white py-2 px-6 rounded-full"
                 >
                   Enter Course

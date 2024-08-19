@@ -12,7 +12,7 @@ const CourseContent: FC<CourseContentProps> = ({ id }) => {
   const { data, isLoading } = useGetUserCourseQuery(id);
   const [activeVideo, setActiveVideo] = React.useState<number>(0);
   const user = useSelector((state: any) => state.auth.user);
-
+  console.log(data);
   if (isLoading) {
     return <div className="text-center text-muted-foreground">Loading...</div>;
   }

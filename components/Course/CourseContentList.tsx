@@ -1,6 +1,7 @@
 import React from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoMdVideocam } from "react-icons/io";
+import { Button } from "../ui/button";
 
 type Props = {
   data: any;
@@ -49,8 +50,9 @@ const CourseContentList = ({
           (item: any) => item.videoSection === section
         );
         const sectionVidCount = sectionVideos.length;
+        console.log(sectionVideos);
         const sectionVidLength = sectionVideos.reduce(
-          (acc, item) => acc + item.videoLength,
+          (acc, item) => acc + item.videoDuration,
           0
         );
         const sectionStartIndex = totalCount;
@@ -67,7 +69,7 @@ const CourseContentList = ({
             <div className="flex justify-between items-center">
               <h1 className="font-semibold text-lg">{section}</h1>
               <button
-                className="text-foreground"
+                className="text-primary mt-2 py-2"
                 onClick={() => toggleSection(section)}
               >
                 {isSectionVisible ? (
@@ -108,7 +110,7 @@ const CourseContentList = ({
                       </h1>
                     </div>
                     <h2 className="text-sm text-muted-foreground">
-                      {video.duration || "10"} minutes
+                      {video.videoDuration || "10"} minutes
                     </h2>
                   </div>
                 ))}

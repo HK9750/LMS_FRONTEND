@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import Boy1 from "@/public/feedbackboy1.png";
 
 type Props = {
   data: any;
@@ -43,8 +44,8 @@ const CourseContentMedia = ({
         className="w-full h-[400px] rounded-md overflow-hidden"
       />
       <div className="w-full flex justify-between items-center my-5">
-        <Button
-          className={`flex items-center p-3 rounded-lg text-foreground bg-accent transition-colors ${
+        <button
+          className={`flex items-center p-2 rounded-lg text-foreground bg-accent transition-colors ${
             activeVideo === 0
               ? "cursor-not-allowed opacity-50"
               : "hover:bg-accent-foreground"
@@ -61,10 +62,10 @@ const CourseContentMedia = ({
         >
           <AiOutlineArrowLeft size={20} className="mr-2" />
           Previous
-        </Button>
+        </button>
 
-        <Button
-          className={`flex items-center p-3 rounded-lg text-foreground bg-accent transition-colors ${
+        <button
+          className={`flex items-center p-2 rounded-lg text-foreground bg-accent transition-colors ${
             data.length - 1 === activeVideo
               ? "cursor-not-allowed opacity-50"
               : "hover:bg-accent-foreground"
@@ -81,7 +82,7 @@ const CourseContentMedia = ({
         >
           Next
           <AiOutlineArrowRight size={20} className="ml-2" />
-        </Button>
+        </button>
       </div>
 
       <h1 className="text-2xl font-semibold text-foreground mb-4">
@@ -94,7 +95,7 @@ const CourseContentMedia = ({
             key={index}
             className={`cursor-pointer font-semibold p-4 flex-1 text-center ${
               activeBar === index
-                ? "text-primary bg-accent-foreground"
+                ? "text-primary-foreground bg-accent-foreground"
                 : "text-foreground"
             }`}
             onClick={() => setActiveBar(index)}
@@ -135,15 +136,15 @@ const CourseContentMedia = ({
           <div>
             <div className="flex gap-4 items-start">
               <Image
-                src={user?.avatar?.url || "/user.png"}
+                src={user?.avatar?.url ? user.avatar.url : Boy1}
                 alt="avatar"
                 width={50}
                 height={50}
-                className="rounded-full border border-border shadow-sm w-16 h-16"
+                className="rounded-full border border-border shadow-sm"
               />
 
               <Textarea
-                className="w-full p-3 rounded-md border border-border bg-muted-foreground text-foreground resize-none"
+                className=""
                 placeholder="Ask a question"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
@@ -151,9 +152,7 @@ const CourseContentMedia = ({
             </div>
 
             <div className="flex justify-end mt-4">
-              <button className="px-5 py-2 rounded-full bg-destructive text-destructive-foreground font-semibold hover:bg-destructive-foreground transition">
-                Submit
-              </button>
+              <Button>Submit</Button>
             </div>
           </div>
         )}
@@ -164,29 +163,29 @@ const CourseContentMedia = ({
               <>
                 <div className="flex gap-4 items-start">
                   <Image
-                    src={user?.avatar?.url || "/user.png"}
+                    src={user?.avatar?.url ? user.avatar.url : Boy1}
                     alt="avatar"
                     width={50}
                     height={50}
-                    className="rounded-full border border-border shadow-sm w-16 h-16"
+                    className="rounded-full border border-border shadow-sm"
                   />
 
                   <div className="w-full">
-                    <h1 className="text-lg font-semibold text-foreground">
+                    <h1 className="text-md font-semibold text-foreground">
                       Give a rating
                     </h1>
                     <div className="flex space-x-2 mt-2">
                       {[1, 2, 3, 4, 5].map((item, index) =>
                         rating >= item ? (
                           <AiFillStar
-                            size={30}
+                            size={20}
                             key={index}
                             onClick={() => setRating(item)}
                             className="cursor-pointer text-yellow-500"
                           />
                         ) : (
                           <AiOutlineStar
-                            size={30}
+                            size={20}
                             key={index}
                             onClick={() => setRating(item)}
                             className="cursor-pointer text-yellow-500"
@@ -197,16 +196,14 @@ const CourseContentMedia = ({
                   </div>
                 </div>
                 <Textarea
-                  className="w-full p-3 rounded-md border border-border bg-muted-foreground text-foreground mt-4 resize-none"
+                  className="mt-2"
                   placeholder="Write a review"
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
                 />
 
                 <div className="flex justify-end mt-4">
-                  <button className="px-5 py-2 rounded-full bg-destructive text-destructive-foreground font-semibold hover:bg-destructive-foreground transition">
-                    Submit
-                  </button>
+                  <Button>Submit</Button>
                 </div>
               </>
             )}

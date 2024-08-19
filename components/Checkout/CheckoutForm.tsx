@@ -67,7 +67,7 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
   }, [orderData, orderError, router, data, setOpen, loadUser]);
 
   return (
-    <form className="bg-background p-6 rounded-lg" onSubmit={handleSubmit}>
+    <form className="p-6 rounded-lg" onSubmit={handleSubmit}>
       <LinkAuthenticationElement />
       <PaymentElement />
 
