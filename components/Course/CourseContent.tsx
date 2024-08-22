@@ -9,21 +9,21 @@ interface CourseContentProps {
 }
 
 const CourseContent: FC<CourseContentProps> = ({ id }) => {
-  const { data, isLoading } = useGetUserCourseQuery(id);
+  const { data, isLoading, refetch } = useGetUserCourseQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const [activeVideo, setActiveVideo] = React.useState<number>(0);
-  const user = useSelector((state: any) => state.auth.user);
-  console.log(data);
+  const { user } = useSelector((state: any) => state.user);
   if (isLoading) {
     return <div className="text-center text-muted-foreground">Loading...</div>;
   }
-
   console.log(data);
-
   if (
     !data ||
     !data.content ||
     !data.content[0] ||
-    !data.content[0].courseData
+    !data.content[0].courseData ||
+    !data.content[0].reviews
   ) {
     return (
       <div className="text-center text-muted-foreground">
@@ -36,11 +36,13 @@ const CourseContent: FC<CourseContentProps> = ({ id }) => {
     <div className="w-full md:grid grid-cols-10 gap-6">
       <div className="col-span-7">
         <CourseContentMedia
+          reviews={data.content[0].reviews}
           data={data.content[0].courseData}
           id={id}
           activeVideo={activeVideo}
           setActiveVideo={setActiveVideo}
           user={user}
+          refetch={refetch}
         />
       </div>
 

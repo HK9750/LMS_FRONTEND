@@ -50,7 +50,7 @@ const courseApi = apiSlice.injectEndpoints({
     addReview: builder.mutation({
       query: (data) => ({
         url: `course/review/${data.courseId}`,
-        method: "POST",
+        method: "PUT",
         body: data,
         credentials: "include" as const,
       }),
@@ -58,7 +58,7 @@ const courseApi = apiSlice.injectEndpoints({
     replyReview: builder.mutation({
       query: (data) => ({
         url: `course/review/reply/${data.reviewId}`,
-        method: "POST",
+        method: "PUT",
         body: data,
         credentials: "include" as const,
       }),
@@ -66,7 +66,7 @@ const courseApi = apiSlice.injectEndpoints({
     addQuestion: builder.mutation({
       query: (data) => ({
         url: `course/question`,
-        method: "POST",
+        method: "PUT",
         body: data,
         credentials: "include" as const,
       }),
@@ -74,7 +74,7 @@ const courseApi = apiSlice.injectEndpoints({
     addAnswer: builder.mutation({
       query: (data) => ({
         url: `course/answer/${data.questionId}`,
-        method: "POST",
+        method: "PUT",
         body: data,
         credentials: "include" as const,
       }),

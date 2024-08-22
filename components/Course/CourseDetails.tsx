@@ -12,13 +12,14 @@ import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/Checkout/CheckoutForm";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import Loader from "../Loader/Loader";
 
 type Props = {
   id: string;
 };
 
 const CourseDetails = ({ id }: Props) => {
-  const { data } = useGetCourseByIdQuery(id);
+  const { data, isLoading } = useGetCourseByIdQuery(id);
   const { data: userDetails } = useLoadUserQuery(undefined, {});
   const user = userDetails?.user;
   const [open, setOpen] = useState(false);
@@ -71,127 +72,140 @@ const CourseDetails = ({ id }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row w-full h-full justify-center my-5 text-foreground">
-        <div className="px-4 space-y-8">
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
-            <div className="flex items-center justify-center md:justify-start space-x-2 mt-2">
-              <span className="text-yellow-500">☆☆☆☆☆</span>
-              <span>0 Reviews</span>
-            </div>
-          </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="flex flex-col md:flex-row w-full h-full justify-center my-5 text-foreground">
+            <div className="px-4 space-y-8">
+              <div className="text-center md:text-left">
+                <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
+                <div className="flex items-center justify-center md:justify-start space-x-2 mt-2">
+                  <span className="text-yellow-500">☆☆☆☆☆</span>
+                  <span>0 Reviews</span>
+                </div>
+              </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold">
-              What you will learn from this course?
-            </h2>
-            <ul className="mt-2 space-y-2">
-              {data?.course?.benefits?.map((item: any, index: number) => (
-                <li key={index} className="flex items-center space-x-2">
-                  <span>✔️</span>
-                  <span>{item?.title || "abc"}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <div>
+                <h2 className="text-2xl font-semibold">
+                  What you will learn from this course?
+                </h2>
+                <ul className="mt-2 space-y-2">
+                  {data?.course?.benefits?.map((item: any, index: number) => (
+                    <li key={index} className="flex items-center space-x-2">
+                      <span>✔️</span>
+                      <span>{item?.title || "abc"}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold">
-              Prerequisites for this course
-            </h2>
-            <ul className="mt-2 space-y-2">
-              {data?.course?.prerequisites?.map((item: any, index: number) => (
-                <li key={index} className="flex items-center space-x-2">
-                  <span>✔️</span>
-                  <span>{item.title || "abc"}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <div>
+                <h2 className="text-2xl font-semibold">
+                  Prerequisites for this course
+                </h2>
+                <ul className="mt-2 space-y-2">
+                  {data?.course?.prerequisites?.map(
+                    (item: any, index: number) => (
+                      <li key={index} className="flex items-center space-x-2">
+                        <span>✔️</span>
+                        <span>{item.title || "abc"}</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">Course Overview</h2>
-            <CourseContentList data={data?.course?.courseData} isDemo={true} />
-          </div>
+              <div>
+                <h2 className="text-2xl font-semibold mb-6">Course Overview</h2>
+                <CourseContentList
+                  data={data?.course?.courseData}
+                  isDemo={true}
+                />
+              </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold">Course Details</h2>
-            <p className="mt-2">{data?.course?.description}</p>
-          </div>
-        </div>
-
-        <div className="mt-10 px-4 md:mt-0 md:mr-10">
-          <CoursePlayer
-            videoUrl={data?.course?.demoUrl}
-            title={data?.course?.name}
-          />
-
-          <div className="mt-4">
-            <div className="text-3xl font-bold flex gap-2">
-              <span>
-                {data?.course?.price ? `$${data.course.price}` : "Free"}
-              </span>
-              <span>
-                {data?.course?.estimatedPrice && (
-                  <span className="line-through text-muted-foreground text-lg">
-                    ${data.course.estimatedPrice}
-                  </span>
-                )}
-              </span>
-              {discountPercent > 0 && (
-                <span className="text-green-500">{discountPercent}% Off</span>
-              )}
+              <div>
+                <h2 className="text-2xl font-semibold">Course Details</h2>
+                <p className="mt-2">{data?.course?.description}</p>
+              </div>
             </div>
 
-            <div className="mt-4">
-              {isPurchased ? (
-                <Link
-                  href={`/courseaccess/${data?.course?._id}`}
-                  className="bg-red-500 text-white py-2 px-6 rounded-full"
-                >
-                  Enter Course
-                </Link>
-              ) : (
-                <button
-                  onClick={handleOrder}
-                  className="bg-red-500 text-white py-2 px-6 rounded-full"
-                >
-                  {`Buy Now for $${data?.course?.price}`}
-                </button>
-              )}
-            </div>
-          </div>
-
-          <ul className="mt-6 space-y-2 text-muted-foreground">
-            <li>Source code included</li>
-            <li>Full lifetime access</li>
-            <li>Certificate of completion</li>
-            <li>Premium Support</li>
-          </ul>
-        </div>
-      </div>
-
-      {open && (
-        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-slate-900 bg-opacity-50 z-50">
-          <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow-lg p-6">
-            <div className="w-full flex justify-end">
-              <IoCloseOutline
-                size={40}
-                className="text-foreground cursor-pointer"
-                onClick={() => setOpen(false)}
+            <div className="mt-10 px-4 md:mt-0 md:mr-10">
+              <CoursePlayer
+                videoUrl={data?.course?.demoUrl}
+                title={data?.course?.name}
               />
-            </div>
-            <div className="w-full">
-              {stripePromise && clientSecret ? (
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <CheckoutForm data={data} setOpen={setOpen} />
-                </Elements>
-              ) : (
-                <div className="text-center">Loading payment form...</div>
-              )}
+
+              <div className="mt-4">
+                <div className="text-3xl font-bold flex gap-2">
+                  <span>
+                    {data?.course?.price ? `$${data.course.price}` : "Free"}
+                  </span>
+                  <span>
+                    {data?.course?.estimatedPrice && (
+                      <span className="line-through text-muted-foreground text-lg">
+                        ${data.course.estimatedPrice}
+                      </span>
+                    )}
+                  </span>
+                  {discountPercent > 0 && (
+                    <span className="text-green-500">
+                      {discountPercent}% Off
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-4">
+                  {isPurchased ? (
+                    <Link
+                      href={`/courseaccess/${data?.course?._id}`}
+                      className="bg-red-500 text-white py-2 px-6 rounded-full"
+                    >
+                      Enter Course
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={handleOrder}
+                      className="bg-red-500 text-white py-2 px-6 rounded-full"
+                    >
+                      {`Buy Now for $${data?.course?.price}`}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <ul className="mt-6 space-y-2 text-muted-foreground">
+                <li>Source code included</li>
+                <li>Full lifetime access</li>
+                <li>Certificate of completion</li>
+                <li>Premium Support</li>
+              </ul>
             </div>
           </div>
-        </div>
+
+          {open && (
+            <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-slate-900 bg-opacity-50 z-50">
+              <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow-lg p-6">
+                <div className="w-full flex justify-end">
+                  <IoCloseOutline
+                    size={40}
+                    className="text-foreground cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
+                <div className="w-full">
+                  {stripePromise && clientSecret ? (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                      <CheckoutForm data={data} setOpen={setOpen} />
+                    </Elements>
+                  ) : (
+                    <div className="text-center">Loading payment form...</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </>
   );
