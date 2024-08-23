@@ -6,7 +6,7 @@ import { StoreProvider } from "@/providers/StoreProvider";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProviderWrapper from "@/providers/SessionProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ display: "swap", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

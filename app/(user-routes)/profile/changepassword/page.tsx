@@ -1,25 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useUpdatePasswordMutation } from "@/redux/features/user/userApi";
+import { useToast } from "@/components/ui/use-toast";
 
 const Page = () => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { toast } = useToast();
+
+  const [updatePassword, { isLoading, isSuccess, error }] =
+    useUpdatePasswordMutation();
 
   const handleShowPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowPassword((prev) => !prev);
   };
+
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Password mismatch",
+        description: "New password and confirm password do not match.",
+        variant: "destructive",
+      });
+      return;
+    }
+    await updatePassword({ oldPassword, newPassword });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "Password updated",
+        description: "Your password has been updated successfully.",
+        variant: "default",
+      });
+    }
+    if (error) {
+      const message = (error as any).data.message;
+      toast({
+        title: "Password update failed",
+        description:
+          message || "An error occurred while updating your password.",
+        variant: "destructive",
+      });
+    }
+  }, [isSuccess, error]);
 
   return (
     <Card className="w-full max-w-md mx-auto mt-4">
@@ -30,7 +70,7 @@ const Page = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleUpdatePassword}>
           <div className="space-y-2">
             <Label htmlFor="currentPassword">Current Password</Label>
             <div className="relative">
@@ -38,6 +78,7 @@ const Page = () => {
                 id="currentPassword"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your current password"
+                onChange={(e) => setOldPassword(e.target.value)}
               />
               <Button
                 variant="ghost"
@@ -57,6 +98,7 @@ const Page = () => {
                 id="newPassword"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter a new password"
+                onChange={(e) => setNewPassword(e.target.value)}
               />
               <Button
                 variant="ghost"
@@ -76,6 +118,7 @@ const Page = () => {
                 id="confirmPassword"
                 type={showPassword ? "text" : "password"}
                 placeholder="Confirm your new password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <Button
                 variant="ghost"
@@ -88,13 +131,11 @@ const Page = () => {
               </Button>
             </div>
           </div>
+          <Button type="submit" className="w-full mt-2">
+            {isLoading ? "Updating..." : "Update Password"}
+          </Button>
         </form>
       </CardContent>
-      <CardFooter>
-        <Button type="submit" className="w-full">
-          Change Password
-        </Button>
-      </CardFooter>
     </Card>
   );
 };

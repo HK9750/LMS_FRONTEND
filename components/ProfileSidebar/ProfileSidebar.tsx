@@ -47,14 +47,12 @@ const ProfileSidebar = () => {
         <div className="flex flex-col items-start gap-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src="" alt="User Avatar" />
+              <AvatarImage src={user?.avatar?.url || ""} alt="User Avatar" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
-              <div className="text-lg font-semibold">John Doe</div>
-              <div className="text-sm text-muted-foreground">
-                john@example.com
-              </div>
+              <div className="text-lg font-semibold">{user?.name}</div>
+              <div className="text-sm text-muted-foreground">{user?.email}</div>
             </div>
           </div>
           <nav className="space-y-2">

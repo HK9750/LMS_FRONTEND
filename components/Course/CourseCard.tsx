@@ -12,6 +12,11 @@ import {
 import { RiStarSFill } from "react-icons/ri";
 import { TfiMenuAlt } from "react-icons/tfi";
 import Books from "@/public/books.png";
+
+interface CourseCardProps {
+  data: any;
+}
+
 const CourseCard = () => {
   return (
     <Link href={`/`}>

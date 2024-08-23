@@ -13,6 +13,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/Checkout/CheckoutForm";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "../Loader/Loader";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 type Props = {
   id: string;
@@ -29,6 +30,11 @@ const CourseDetails = ({ id }: Props) => {
   const [stripePromise, setStripePromise] =
     useState<Promise<Stripe | null> | null>(null);
   const [clientSecret, setClientSecret] = useState<string>("");
+
+  const courseTitle = data?.course?.name;
+  const courseReviewsLength = data?.course?.reviews.length;
+  const totalStars = 5;
+  const filledStars = Math.round(data?.course?.ratings || 0);
 
   const discountPercent: number =
     data?.course?.estimatedPrice && data?.course?.price
@@ -79,10 +85,16 @@ const CourseDetails = ({ id }: Props) => {
           <div className="flex flex-col md:flex-row w-full h-full justify-center my-5 text-foreground">
             <div className="px-4 space-y-8">
               <div className="text-center md:text-left">
-                <h1 className="text-3xl font-bold">{data?.course?.name}</h1>
+                <h1 className="text-3xl font-bold">{courseTitle}</h1>
                 <div className="flex items-center justify-center md:justify-start space-x-2 mt-2">
-                  <span className="text-yellow-500">☆☆☆☆☆</span>
-                  <span>0 Reviews</span>
+                  {Array.from({ length: 5 }).map((_, index) =>
+                    index < data?.course.ratings ? (
+                      <AiFillStar key={index} className="text-yellow-400" />
+                    ) : (
+                      <AiOutlineStar key={index} />
+                    )
+                  )}
+                  <span>{courseReviewsLength} Reviews</span>
                 </div>
               </div>
 

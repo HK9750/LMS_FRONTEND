@@ -26,7 +26,7 @@ const Header = () => {
           </SheetTrigger>
 
           <SheetContent side="left" className="sm:max-w-xs">
-            <nav className="grid gap-6 text-lg font-medium">
+            <nav className="grid gap-6 text-lg font-semibold">
               <Link
                 href="/"
                 className="text-foreground hover:text-muted-foreground"
@@ -62,7 +62,7 @@ const Header = () => {
         </Sheet>
         <h1 className="text-xl font-semibold">LearnHub</h1>
       </div>
-      <nav className="hidden items-center space-x-6 sm:flex">
+      <nav className="hidden items-center space-x-6 sm:flex font-semibold">
         <Link
           href="/"
           className="text-lg text-foreground hover:text-muted-foreground"
@@ -102,6 +102,7 @@ const Header = () => {
                 src={user?.avatar.url}
                 alt="User Avatar"
                 className="object-contain"
+                loading="lazy"
               />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
