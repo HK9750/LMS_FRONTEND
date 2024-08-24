@@ -63,6 +63,13 @@ const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getCoursesReviews: builder.query({
+      query: () => ({
+        url: `courses/reviews`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
     addQuestion: builder.mutation({
       query: (data) => ({
         url: `course/question`,
@@ -86,6 +93,13 @@ const courseApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchCourses: builder.query({
+      query: (query) => ({
+        url: `courses/search/name?query=${query}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -101,4 +115,6 @@ export const {
   useReplyReviewMutation,
   useDeleteCourseMutation,
   useGetUserCourseQuery,
+  useGetCoursesReviewsQuery,
+  useSearchCoursesQuery,
 } = courseApi;

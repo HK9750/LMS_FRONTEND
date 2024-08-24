@@ -1,4 +1,4 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -7,8 +7,15 @@ import Link from "next/link";
 import Books from "@/public/books.png";
 import Boy1 from "@/public/feedbackboy1.png";
 import Boy2 from "@/public/feedbackboy2.png";
+import { useState } from "react";
+import { useSearchCoursesQuery } from "@/redux/features/course/courseapi";
 
 const Hero = () => {
+  const [search, setSearch] = useState("Data");
+
+  const { data, error } = useSearchCoursesQuery(search);
+  console.log(data);
+
   return (
     <main className="flex flex-col items-center justify-center p-10 md:flex-row">
       <div className="flex-1">
@@ -54,7 +61,7 @@ const Hero = () => {
           </Avatar>
           <p className="text-muted-foreground">
             500K+ People already trusted us.{" "}
-            <Link href="#" className="text-primary text-nowrap">
+            <Link href={"/courses"} className="text-primary text-nowrap">
               View Courses
             </Link>
           </p>

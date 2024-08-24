@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 
 const Page = ({ params }: any) => {
   const { id } = params;
-  const { error, data, isLoading } = useLoadUserQuery(undefined, {});
+  const { error, data } = useLoadUserQuery(undefined, {});
 
   useEffect(() => {
     if (data) {

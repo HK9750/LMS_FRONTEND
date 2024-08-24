@@ -4,17 +4,15 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const isRefreshToken = request.cookies.has("refreshToken");
 
-  // Extract the pathname from the request URL
   const { pathname } = request.nextUrl;
 
-  // Define the routes where middleware should apply
   const protectedRoutes = [
-    /^\/profile\/.*/, // Matches /profile/*
-    /^\/course\/.*$/, // Matches /course/8
-    /^\/dashboard\/.*$/, // Matches /dashboard/8
+    /^\/profile(\/.*)?$/,
+    /^\/course(\/.*)?$/,
+    /^\/dashboard(\/.*)?$/,
+    /^\/courseaccess(\/.*)?$/,
   ];
 
-  // Check if the current path matches any of the protected routes
   const isProtectedRoute = protectedRoutes.some((route) =>
     route.test(pathname)
   );

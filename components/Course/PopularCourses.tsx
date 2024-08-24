@@ -1,22 +1,38 @@
 import React from "react";
-import CourseCard from "@/components/Course/CourseCard";
+import { useGetAllCoursesUserQuery } from "@/redux/features/course/courseapi";
+import Loader from "../Loader/Loader";
+import CourseCard from "./CourseCard";
 
-const PopularCourses = () => {
+const Courses = () => {
+  const { data, isLoading } = useGetAllCoursesUserQuery({});
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const coursesCopy = [...data.courses];
+  const sortedCourses = coursesCopy.sort(
+    (a: any, b: any) => b.purchased - a.purchased
+  );
+  const topCourses = sortedCourses.slice(0, 6);
+
   return (
-    <div className="container my-12">
+    <section className="container my-12">
       <h1 className="text-3xl font-bold text-foreground mb-8 text-center">
         Popular Courses
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {topCourses.map((course: any) => (
+          <div
+            key={course._id}
+            className="flex items-center justify-center h-full "
+          >
+            <CourseCard data={course} />
+          </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default PopularCourses;
+export default Courses;

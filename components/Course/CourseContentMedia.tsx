@@ -305,22 +305,15 @@ const CourseContentMedia = ({
 
         {activeBar === 1 && (
           <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            {data[activeVideo]?.resources.map((item: any, index: number) => (
+            {data[activeVideo]?.links?.map((item: any, index: number) => (
               <Link
                 key={index}
-                href={item.resourceUrl}
+                href={item.url}
                 target="_blank"
                 className="cursor-pointer"
               >
-                <div className="rounded-md shadow-lg overflow-hidden p-2 bg-secondary">
-                  <Image
-                    src={item.thumbnailUrl}
-                    alt="Thumbnail"
-                    height={300}
-                    width={300}
-                    className="w-full h-[100px] object-cover"
-                  />
-                  <p className="text-sm mt-2 font-semibold text-primary-foreground">
+                <div className="rounded-md shadow-lg overflow-hidden p-2">
+                  <p className="text-sm mt-2 font-semibold text-center text-accent-foreground">
                     {item.title}
                   </p>
                 </div>
@@ -330,46 +323,73 @@ const CourseContentMedia = ({
         )}
 
         {activeBar === 2 && (
-          <div className="text-foreground mt-4">
-            <h1 className="text-xl font-semibold mb-4">Q&A</h1>
-            {data[activeVideo]?.questions.length === 0 ? (
-              <p>No questions have been asked yet.</p>
+          <div className="text-foreground mt-6 px-6 py-4 rounded-lg shadow-lg">
+            <h1 className="text-2xl font-bold mb-6">Q&A</h1>
+
+            {data[activeVideo]?.questions?.length === 0 ? (
+              <p className="text-muted-foreground text-center">
+                No questions have been asked yet.
+              </p>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {data[activeVideo]?.questions.map((question: any) => (
-                  <div key={question._id} className="bg-muted p-4 rounded-md">
+                  <div key={question._id} className="bg-muted p-6 rounded-lg">
                     <div>
-                      <h2 className="font-semibold text-primary">
-                        {question?.question}
+                      <div className="flex gap-3 p-1">
+                        <Image
+                          src={question?.user?.avatar?.url || Boy1}
+                          alt="User Avatar"
+                          width={40}
+                          height={40}
+                          loading="lazy"
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <p className="text-lg text-primary mt-1">
+                          {question?.user?.name || "Anonymous"}
+                        </p>
+                      </div>
+                      <h2 className="text-md font-normal text-accent-foreground">
+                        {question?.comment}
                       </h2>
-                      <p className="text-sm text-primary-foreground mt-1">
-                        {question?.user?.name || "Anonymous"}
-                      </p>
                     </div>
-                    {question?.answers.length > 0 && (
-                      <div className="mt-4">
+                    {question?.commentReplies?.length > 0 && (
+                      <div className="mt-4 space-y-3">
                         <h3 className="font-semibold">Answers:</h3>
-                        {question.answers.map((answer: any, index: number) => (
-                          <div key={index} className="mt-2">
-                            <p>{answer?.answer}</p>
-                            <p className="text-sm text-primary-foreground">
-                              {answer?.user?.name || "Anonymous"}
-                            </p>
-                          </div>
-                        ))}
+                        {question.commentReplies?.map(
+                          (answer: any, index: number) => (
+                            <div key={index} className="p-4 rounded-md">
+                              <div className="flex gap-3 p-1 items-center">
+                                <Image
+                                  src={answer?.user?.avatar?.url || Boy1}
+                                  alt="User Avatar"
+                                  width={40}
+                                  height={40}
+                                  loading="lazy"
+                                  className="w-8 h-8 rounded-full"
+                                />
+                                <p className="text-sm font-medium text-foreground">
+                                  {answer?.user?.name || "Anonymous"}
+                                </p>
+                              </div>
+                              <p className="mt-2 text-sm text-foreground">
+                                {answer?.comment}
+                              </p>
+                            </div>
+                          )
+                        )}
                       </div>
                     )}
                     {user && (
-                      <div className="mt-4">
+                      <div className="mt-6">
                         {replyingTo === question._id ? (
                           <div className="space-y-4">
                             <Textarea
                               placeholder="Type your answer here."
                               value={answer}
                               onChange={(e) => setAnswer(e.target.value)}
-                              className="resize-none"
+                              className="resize-none text-foreground border-muted"
                             />
-                            <div className="space-x-4">
+                            <div className="flex space-x-4">
                               <Button
                                 onClick={() => handleAnswer(question._id)}
                               >
@@ -398,13 +418,13 @@ const CourseContentMedia = ({
               </div>
             )}
 
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold mb-4">Ask a Question</h2>
+            <div className="mt-10">
+              <h2 className="text-xl font-semibold mb-4">Ask a Question</h2>
               <Textarea
                 placeholder="Type your question here."
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
-                className="resize-none"
+                className="resize-none text-foreground bg-background border-muted"
               />
               <Button onClick={handleQuestion} className="mt-4">
                 Submit

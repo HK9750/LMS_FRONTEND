@@ -1,52 +1,34 @@
 import React from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
+import FAQCard from "./FaqCard";
+import { useGetLayoutQuery } from "@/redux/features/layout/layoutapi";
 
 const FAQ = () => {
+  const { data, isLoading } = useGetLayoutQuery("FAQ");
+  const faqArray = data?.layout?.faq;
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <section className="container my-12">
       <h1 className="text-3xl font-bold text-foreground mb-8 text-center">
         Frequently Asked Questions
       </h1>
-      <section className="mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <Accordion type="single" collapsible className="space-y-4">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-lg font-semibold">
-                Is it accessible?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger className="text-lg font-semibold">
-                Is it accessible?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="text-lg font-semibold">
-                Is it accessible?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger className="text-lg font-semibold">
-                Is it accessible?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
+      <section className="flex justify-center">
+        <div className="w-full max-w-3xl mx-auto">
+          {" "}
+          {/* Add container with fixed max width */}
+          <Accordion type="single" collapsible className="space-y-8">
+            {faqArray?.map((faq: any, index: number) => (
+              <FAQCard
+                key={index}
+                value={`item-${index + 1}`}
+                question={faq.question}
+                answer={faq.answer}
+              />
+            ))}
           </Accordion>
         </div>
       </section>
