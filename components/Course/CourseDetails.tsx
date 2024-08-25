@@ -33,8 +33,6 @@ const CourseDetails = ({ id }: Props) => {
 
   const courseTitle = data?.course?.name;
   const courseReviewsLength = data?.course?.reviews.length;
-  const totalStars = 5;
-  const filledStars = Math.round(data?.course?.ratings || 0);
 
   const discountPercent: number =
     data?.course?.estimatedPrice && data?.course?.price
@@ -196,8 +194,8 @@ const CourseDetails = ({ id }: Props) => {
           </div>
 
           {open && (
-            <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-slate-900 bg-opacity-50 z-50">
-              <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow-lg p-6">
+            <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-transparent bg-opacity-50 z-50">
+              <div className="w-[500px] min-h-[500px] bg-background rounded-xl shadow-lg p-6">
                 <div className="w-full flex justify-end">
                   <IoCloseOutline
                     size={40}
@@ -205,10 +203,14 @@ const CourseDetails = ({ id }: Props) => {
                     onClick={() => setOpen(false)}
                   />
                 </div>
-                <div className="w-full">
+                <div className="w-full text-foreground">
                   {stripePromise && clientSecret ? (
                     <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <CheckoutForm data={data} setOpen={setOpen} />
+                      <CheckoutForm
+                        data={data}
+                        setOpen={setOpen}
+                        userId={user._id}
+                      />
                     </Elements>
                   ) : (
                     <div className="text-center">Loading payment form...</div>

@@ -9,13 +9,15 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
+import useSocket from "@/lib/useSocket";
 
 type Props = {
   data: any;
   setOpen: (open: boolean) => void;
+  userId: string;
 };
 
-const CheckoutForm = ({ data, setOpen }: Props) => {
+const CheckoutForm = ({ data, setOpen, userId }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -25,6 +27,8 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
   const [createOrder, { data: orderData, error: orderError }] =
     useCreateOrderMutation();
 
+  const socketUrl = process.env.NEXT_PUBLIC_SOCKET_BACKEND_URL || "";
+  const socket = useSocket(socketUrl);
   const { refetch: loadUser } = useLoadUserQuery(undefined, { skip: true });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,6 +63,11 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
   useEffect(() => {
     if (orderData) {
       setOpen(false);
+      socket?.emit("notifications", {
+        title: "Order Placed for " + data?.course?.name,
+        message: `Your order has been placed successfully for ${data?.course?.name}`,
+        userId,
+      });
       router.push(`/courseaccess/${data?.course?._id}`);
     } else if (orderError) {
       console.error(orderError);
@@ -74,6 +83,7 @@ const CheckoutForm = ({ data, setOpen }: Props) => {
       <div className="mt-6 flex justify-center">
         <Button
           disabled={isLoading || !stripe || !elements}
+          variant="outline"
           id="submit"
           className="w-full max-w-sm bg-primary text-primary-foreground py-3 px-4 rounded-lg"
         >

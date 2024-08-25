@@ -101,7 +101,7 @@ const Header = () => {
               <AvatarImage
                 src={user?.avatar.url}
                 alt="User Avatar"
-                className="object-contain"
+                className="object-contain border-none"
                 loading="lazy"
               />
               <AvatarFallback>U</AvatarFallback>

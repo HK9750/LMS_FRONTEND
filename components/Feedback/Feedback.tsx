@@ -1,15 +1,16 @@
 import React from "react";
 import FeedbackCards from "@/components/Feedback/FeedbackCard";
 import { useGetCoursesReviewsQuery } from "@/redux/features/course/courseapi";
+import Loader from "../Loader/Loader";
 
 const Feedback = () => {
   const { data, isLoading } = useGetCoursesReviewsQuery({});
-  console.log(data);
-
   return (
     <>
       {isLoading ? (
-        <></>
+        <>
+          <Loader />
+        </>
       ) : (
         <div className="container my-12">
           <h1 className="text-3xl font-bold text-foreground mb-8 text-center">

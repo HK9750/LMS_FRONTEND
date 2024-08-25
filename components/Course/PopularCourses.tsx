@@ -5,6 +5,7 @@ import CourseCard from "./CourseCard";
 
 const Courses = () => {
   const { data, isLoading } = useGetAllCoursesUserQuery({});
+  console.log("popular courses", data);
 
   if (isLoading) {
     return <Loader />;

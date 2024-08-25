@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { StoreProvider } from "@/providers/StoreProvider";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProviderWrapper from "@/providers/SessionProvider";
+import SocketWrapper from "@/providers/SocketProvider";
 
 const inter = Inter({ display: "swap", subsets: ["latin"] });
 
@@ -29,8 +30,10 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              {children}
-              <Toaster />
+              <SocketWrapper>
+                {children}
+                <Toaster />
+              </SocketWrapper>
             </ThemeProvider>
           </StoreProvider>
         </SessionProviderWrapper>

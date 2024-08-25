@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,13 +9,18 @@ import Books from "@/public/books.png";
 import Boy1 from "@/public/feedbackboy1.png";
 import Boy2 from "@/public/feedbackboy2.png";
 import { useState } from "react";
-import { useSearchCoursesQuery } from "@/redux/features/course/courseapi";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
-  const [search, setSearch] = useState("Data");
-
-  const { data, error } = useSearchCoursesQuery(search);
-  console.log(data);
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+  const handleSearch = () => {
+    if (search === "") {
+      return;
+    } else {
+      router.push(`/courses?search=${search}`);
+    }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center p-10 md:flex-row">
@@ -43,8 +49,12 @@ const Hero = () => {
               type="search"
               placeholder="Search Courses..."
               className="w-full px-4 py-2 text-foreground bg-input rounded-md"
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <Button className="absolute right-0 top-0 h-full px-4 bg-primary text-primary-foreground">
+            <Button
+              className="absolute right-0 top-0 h-full px-4 bg-primary text-primary-foreground"
+              onClick={handleSearch}
+            >
               <SearchIcon className="w-6 h-6 text-primary-foreground" />
             </Button>
           </div>

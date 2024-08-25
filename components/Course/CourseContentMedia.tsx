@@ -18,6 +18,7 @@ import {
   useAddReviewMutation,
   useReplyReviewMutation,
 } from "@/redux/features/course/courseapi";
+import useSocket from "@/lib/useSocket";
 
 type Props = {
   reviews: any;
@@ -47,6 +48,9 @@ const CourseContentMedia = ({
     {}
   );
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
+
+  const socketUrl = process.env.NEXT_PUBLIC_SOCKET_BACKEND_URL || "";
+  const socket = useSocket(socketUrl);
 
   const { toast } = useToast();
   const [
@@ -156,7 +160,7 @@ const CourseContentMedia = ({
       await replyReview({ answer: replyText, courseId: id, reviewId });
       setReviewReplies({
         ...reviewReplies,
-        [reviewId]: "", // Reset the input after submission
+        [reviewId]: "",
       });
     }
   };
@@ -164,6 +168,11 @@ const CourseContentMedia = ({
   useEffect(() => {
     if (isQuestionCreationSuccess) {
       setQuestion("");
+      // socket?.emit("notifications",{
+      //   title: "New Question",
+      //   message: `A new question has been asked in your Course:${} in the video titled:${}`,
+      //   userId: data[activeVideo]?.instructor?._id,
+      // });
       refetch();
     }
     if (isAnswerSuccess) {
