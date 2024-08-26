@@ -17,7 +17,7 @@ const Page = ({ params }: any) => {
         redirect("/");
       }
     }
-  }, [data, error]);
+  }, [data, error, id]);
 
   return (
     <div className="text-slate-800 dark:text-white">

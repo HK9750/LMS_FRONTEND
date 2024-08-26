@@ -30,7 +30,7 @@ const UpdateHero = () => {
   useEffect(() => {
     if (data?.layout?.banner) {
       setTitle(data.layout.banner.title);
-      setSubTitle(data.layout.banner.subTitle);
+      setSubTitle(data.layout.banner.subtitle);
       setImage(data.layout.banner.image.url);
     }
   }, [data]);
@@ -56,7 +56,7 @@ const UpdateHero = () => {
       type: "Banner",
       image: image,
       title: title,
-      subTitle: subTitle,
+      subtitle: subTitle,
     });
   };
 
@@ -74,7 +74,7 @@ const UpdateHero = () => {
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto mt-6">
+    <Card className="w-full max-w-lg mx-auto my-4">
       <CardHeader>
         <CardTitle>Update Hero Section</CardTitle>
         <CardDescription>
@@ -104,7 +104,7 @@ const UpdateHero = () => {
               </div>
             </label>
           </div>
-          <form onSubmit={handleEdit} className="space-y-2 w-full px-6 py-2">
+          <form onSubmit={handleEdit} className="space-y-3 w-full px-5 py-2">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-sm text-muted-foreground">
                 Title
@@ -131,10 +131,10 @@ const UpdateHero = () => {
                 placeholder="Enter the subtitle"
                 className="w-full p-2 text-foreground bg-card border border-border rounded"
               />
-              <Button type="submit" className="w-full">
-                Update Profile
-              </Button>
             </div>
+            <Button type="submit" className="w-full mt-2">
+              Update Profile
+            </Button>
           </form>
         </div>
       </CardContent>

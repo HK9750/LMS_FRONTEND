@@ -36,7 +36,7 @@ const UpdateCategories = () => {
         variant: "destructive",
       });
     }
-  }, [isSuccess, error, toast]);
+  }, [isSuccess, error, toast, refetch]);
 
   const handleEdit = async (e: any) => {
     e.preventDefault();

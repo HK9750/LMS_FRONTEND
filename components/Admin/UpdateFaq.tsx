@@ -73,8 +73,12 @@ const UpdateFaq = () => {
     );
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
     setFaq((prevFaq) => prevFaq.filter((_, i) => i !== index));
+    await updateLayout({
+      type: "FAQ",
+      faq: faq.filter((_, i) => i !== index),
+    });
   };
 
   return (

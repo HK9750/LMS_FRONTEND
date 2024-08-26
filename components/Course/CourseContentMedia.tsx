@@ -168,12 +168,12 @@ const CourseContentMedia = ({
   useEffect(() => {
     if (isQuestionCreationSuccess) {
       setQuestion("");
-      // socket?.emit("notifications",{
-      //   title: "New Question",
-      //   message: `A new question has been asked in your Course:${} in the video titled:${}`,
-      //   userId: data[activeVideo]?.instructor?._id,
-      // });
       refetch();
+      socket?.emit("notifications", {
+        title: "New Question",
+        message: `A new question has been asked in your Course:${id} in the video titled:${data[activeVideo]?.title}`,
+        userId: user?._id,
+      });
     }
     if (isAnswerSuccess) {
       setAnswer("");
@@ -203,6 +203,11 @@ const CourseContentMedia = ({
         title: "Review Submitted",
         description: "Your review has been submitted successfully",
         variant: "default",
+      });
+      socket?.emit("notifications", {
+        title: "New Review",
+        message: `A new review has been added to your Course:${id}`,
+        userId: user?._id,
       });
     }
     if (AddReviewError) {

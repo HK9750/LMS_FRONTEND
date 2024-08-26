@@ -1,6 +1,7 @@
 import { useGetLayoutQuery } from "@/redux/features/layout/layoutapi";
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
+import Image from "next/image";
 
 type Props = {
   courseInfo: any;
@@ -228,10 +229,13 @@ const CourseInformation = ({
               />
             </div>
             {courseInfo.thumbnail && (
-              <img
+              <Image
                 src={courseInfo.thumbnail.url || courseInfo.thumbnail}
                 alt="thumbnail"
                 className="mt-12"
+                width={200}
+                height={200}
+                loading="lazy"
               />
             )}
           </div>

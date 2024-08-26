@@ -97,7 +97,7 @@ const EditCourse = ({ course }: Props) => {
         });
       }
     }
-  }, [isSuccess, error, isLoading, router]);
+  }, [isSuccess, error, isLoading, router, toast]);
 
   const handleSubmit = () => {
     const formattedBenefits = benefits.map((benefit) => ({

@@ -13,12 +13,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading delay or any initialization logic
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500); // Adjust the delay as needed
-
-    // Clean up the timer on unmount
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 

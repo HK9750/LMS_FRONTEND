@@ -59,7 +59,7 @@ const Page = () => {
         variant: "destructive",
       });
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, toast]);
 
   return (
     <Card className="w-full max-w-md mx-auto mt-4">

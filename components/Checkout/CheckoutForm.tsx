@@ -73,7 +73,7 @@ const CheckoutForm = ({ data, setOpen, userId }: Props) => {
       console.error(orderError);
       setMessage("Failed to create order. Please try again.");
     }
-  }, [orderData, orderError, router, data, setOpen, loadUser]);
+  }, [orderData, orderError, router, data, setOpen, loadUser, socket, userId]);
 
   return (
     <form className="p-6 rounded-lg" onSubmit={handleSubmit}>

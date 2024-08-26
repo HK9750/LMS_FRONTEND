@@ -1,5 +1,6 @@
 import Header from "@/components/LandingPage/Header";
 import React from "react";
+import UserProtected from "@/lib/UserProtected";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -7,10 +8,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <section>
-      <Header />
-      {children}
-    </section>
+    <UserProtected>
+      <section>
+        <Header />
+        {children}
+      </section>
+    </UserProtected>
   );
 };
 

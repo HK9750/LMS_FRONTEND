@@ -178,7 +178,7 @@ export default function AllUsers({ type }: Props) {
         ),
       },
     ],
-    []
+    [handleDeleteClick]
   );
 
   const table = useReactTable({

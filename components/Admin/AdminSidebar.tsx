@@ -9,7 +9,6 @@ import {
   FaTh as GridIcon,
   FaChartBar as BarChartIcon,
   FaShoppingCart as ShoppingCartIcon,
-  FaCog as SettingsIcon,
 } from "react-icons/fa";
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -50,7 +49,7 @@ const AdminSidebar = () => {
           <SidebarLink href="/dashboard/create-course" icon={<FilePlusIcon />}>
             Create Course
           </SidebarLink>
-          <SidebarLink href="/dashboard/live-courses" icon={<VideoIcon />}>
+          <SidebarLink href="/courses" icon={<VideoIcon />}>
             Live Courses
           </SidebarLink>
 
@@ -93,11 +92,6 @@ const AdminSidebar = () => {
             Users Analytics
           </SidebarLink>
         </nav>
-      </div>
-      <div className="mt-8">
-        <SidebarLink href="/admin/settings" icon={<SettingsIcon />}>
-          Settings
-        </SidebarLink>
       </div>
     </aside>
   );

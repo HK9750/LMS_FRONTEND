@@ -114,6 +114,7 @@ const Page = () => {
     avatarUpdateError,
     isUserUpdateSuccess,
     isAvatarUpdateSuccess,
+    toast,
   ]);
 
   return (

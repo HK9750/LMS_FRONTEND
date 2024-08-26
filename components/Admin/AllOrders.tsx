@@ -23,11 +23,13 @@ const AllOrders = () => {
     { refetchOnMountOrArgChange: true }
   );
 
+  console.log(data);
+
   const columns = React.useMemo(
     () => [
-      { accessorKey: "id", header: "ID" },
-      { accessorKey: "email", header: "Email" },
-      { accessorKey: "course", header: "Course" },
+      { accessorKey: "id", header: "Order ID" },
+      { accessorKey: "userId", header: "User ID" },
+      { accessorKey: "courseId", header: "Course ID" },
       {
         accessorKey: "placedAt",
         header: "Placed At",
@@ -35,7 +37,15 @@ const AllOrders = () => {
           <div className="text-center">{row.getValue("placedAt")}</div>
         ),
       },
-      { accessorKey: "price", header: "Price" },
+      {
+        accessorKey: "price",
+        header: "Price",
+        cell: ({ row }: { row: any }) => (
+          <div className="text-center">
+            ${(row.getValue("price") / 100).toFixed(2)}
+          </div>
+        ),
+      },
     ],
     []
   );
@@ -43,11 +53,11 @@ const AllOrders = () => {
   const rows = React.useMemo(
     () =>
       data?.orders?.map((order: any) => ({
-        id: order?._id,
-        email: order?.user?.email,
-        course: order?.course?.name,
-        placedAt: format(order?.createdAt),
-        price: order?.course?.price,
+        id: order._id,
+        userId: order.userId,
+        courseId: order.courseId,
+        placedAt: format(order.createdAt),
+        price: order.paymentInfo?.amount,
       })) || [],
     [data]
   );

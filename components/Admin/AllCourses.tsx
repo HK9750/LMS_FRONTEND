@@ -148,7 +148,7 @@ const AllCourses = () => {
       data?.courses?.map((course: any, index: number) => ({
         id: course._id,
         title: course.name,
-        ratings: course.ratings,
+        ratings: Math.round(course.ratings),
         purchased: course.purchased,
         createdAt: format(course.createdAt),
       })) || [],

@@ -13,10 +13,9 @@ interface CoursesProps {
 const Courses: FC<CoursesProps> = ({ search }) => {
   // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const { data, isLoading } =
-    search === null
-      ? useGetAllCoursesUserQuery({})
-      : useGetAllCoursesUserQuery({ search });
+  const queryParam = search === null ? {} : { search };
+
+  const { data, isLoading } = useGetAllCoursesUserQuery(queryParam);
 
   // const { data: CategoriesData, isLoading: CategoriesLoading } =
   //   useGetLayoutQuery("Categories");
@@ -38,7 +37,7 @@ const Courses: FC<CoursesProps> = ({ search }) => {
 
   return (
     <>
-      <section className="container my-6">
+      <section className="container my-8">
         {/* <div className="flex justify-center gap-10">
           {categories?.map((category: any) => (
             <h1
