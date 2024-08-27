@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useState, useEffect } from "react";
 import Loader from "@/components/Loader/Loader";
-import { LoginFormSchema } from "@/schemas/loginSchema";
+import { LoginFormSchema } from "../../schemas/loginSchema";
 import { signIn, useSession } from "next-auth/react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import {

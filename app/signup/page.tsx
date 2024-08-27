@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useEffect, useState } from "react";
-import { SignUpFormSchema } from "@/schemas/signupSchema";
+import { SignUpFormSchema } from "../../schemas/signupSchema";
 import Loader from "@/components/Loader/Loader";
 import OTPVerification from "@/components/OTPVerification/OTPVerification";
 import { signIn, useSession } from "next-auth/react";
