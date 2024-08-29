@@ -19,6 +19,7 @@ const AdminProtected: FC<AdminProtectedProps> = ({ children }) => {
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);
+        console.log("User not authorized");
         router.push("/");
       }
     }, 500);

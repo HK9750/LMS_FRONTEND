@@ -14,6 +14,7 @@ const UserProtected: FC<UserProtectedProps> = ({ children }) => {
   useEffect(() => {
     // Redirect to login if not authenticated and loading is complete
     if (!isLoading && !isAuthenticated) {
+      console.log("User not authenticated");
       router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
