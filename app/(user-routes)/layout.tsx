@@ -8,12 +8,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <UserProtected>
-      <section>
-        <Header />
-        {children}
-      </section>
-    </UserProtected>
+    // <UserProtected>
+    <section>
+      <Header />
+      {children}
+    </section>
+    // </UserProtected>
   );
 };
 
