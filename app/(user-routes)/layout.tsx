@@ -13,7 +13,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
         {children}
       </section>
-      //{" "}
     </UserProtected>
   );
 };
